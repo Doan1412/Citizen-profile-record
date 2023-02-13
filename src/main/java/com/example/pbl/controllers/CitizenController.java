@@ -31,6 +31,7 @@ public class CitizenController {
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Citizen>> getCityCitizen(@PathVariable("name") String name){
         try {
+            name=name.replace('-',' ');
             List<Citizen> citizenList=citizenService.getCityCitizen(name);
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
@@ -41,6 +42,7 @@ public class CitizenController {
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Citizen>> getTownCitizen(@PathVariable("name") String name){
         try {
+            name=name.replace('-',' ');
             List<Citizen> citizenList=citizenService.getTownCitizen(name);
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
@@ -51,6 +53,7 @@ public class CitizenController {
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Citizen>> getDistrictCitizen(@PathVariable("name") String name){
         try {
+            name=name.replace('-',' ');
             List<Citizen> citizenList=citizenService.getDistrictCitizen(name);
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
@@ -61,6 +64,7 @@ public class CitizenController {
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Citizen>> getQuarterCitizen(@PathVariable("name") String name){
         try {
+            name=name.replace('-',' ');
             List<Citizen> citizenList=citizenService.getQuarterCitizen(name);
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
@@ -72,4 +76,6 @@ public class CitizenController {
     public ResponseEntity<Citizen> getCitizenById(@PathVariable("id") long id){
         return citizenService.getCitizenById(id);
     }
+
+
 }

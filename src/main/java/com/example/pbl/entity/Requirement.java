@@ -12,8 +12,12 @@ public class Requirement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_requirement;
-    private String author;
-    private String recipient;
+    @ManyToOne
+    @JoinColumn(name = "author_citizen_id")
+    private Citizen author;
+    @OneToOne
+    @JoinColumn(name = "recipient_politician_id")
+    private Politician recipient;
     @Column(nullable = false)
     private String description;
     private Date date;
@@ -22,7 +26,7 @@ public class Requirement {
 
     }
 
-    public Requirement(String author, String recipient, String description, Date date, String status) {
+    public Requirement(Citizen author, Politician recipient, String description, Date date, String status) {
         this.author = author;
         this.recipient = recipient;
         this.description = description;
@@ -38,20 +42,20 @@ public class Requirement {
         this.id_requirement = id_requirement;
     }
 
-    public String getAuthor() {
+    public Citizen getAuthor() {
         return author;
     }
 
-    public void setAuthor(String from) {
-        this.author = from;
+    public void setAuthor(Citizen author) {
+        this.author = author;
     }
 
-    public String getRecipient() {
+    public Politician getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(String to) {
-        this.recipient = to;
+    public void setRecipient(Politician recipient) {
+        this.recipient = recipient;
     }
 
     public String getDescription() {
