@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PoliticianRepository extends JpaRepository<Politician,Long> {
-    List<Politician>findByCitizenLocationCity(String name);
+    List<Politician>findByCitizenNameContaining(String name);
+    List<Politician>findByLevelManagerAndAreaManage(String levelManage,String areaManage);
 }

@@ -29,8 +29,12 @@ public class Citizen implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private Date birth;
-    @Column(nullable = false)
-    private Long idFamily;//id so ho khau
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JoinColumn(name = "id_family")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Family family;//id so ho khau
     private boolean gender; //gioi tinh
     private String ethnic; //Dan toc
     private String religion; //Ton giao
@@ -173,12 +177,12 @@ public class Citizen implements UserDetails {
         this.location = location;
     }
 
-    public Long getIdFamily() {
-        return idFamily;
+    public Family getFamily() {
+        return family;
     }
 
-    public void setIdFamily(Long idFamily) {
-        this.idFamily = idFamily;
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     @Override
@@ -187,7 +191,7 @@ public class Citizen implements UserDetails {
                 "id=" + citizen_id +
                 ", name='" + name + '\'' +
                 ", birth=" + birth +
-                ", idFamily=" + idFamily +
+                ", idFamily=" + family +
                 ", Gender=" + gender +
                 ", ethnic='" + ethnic + '\'' +
                 ", religion='" + religion + '\'' +

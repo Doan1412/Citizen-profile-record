@@ -14,4 +14,6 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen>findByLocationTown(String town);
     List<Citizen>findByLocationDistrict(String district);
     Optional<Citizen> findById(Long id);
+    List<Citizen>findByName(String name);
+    //List<Citizen>findByFamilyId_Family(Long idFamily);
 }
