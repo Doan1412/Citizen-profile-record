@@ -5,12 +5,13 @@ import com.example.pbl.service.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path="api/politician")
+@RequestMapping(path="api/citizen")
 public class CitizenController {
     private final CitizenService citizenService;
     @Autowired
@@ -19,6 +20,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/country")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
     public ResponseEntity<List<Citizen>> getAllCitizen(){
         try {
             List<Citizen> citizenList=citizenService.getAllCitizen();
@@ -29,6 +31,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/city={name}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
     public ResponseEntity<List<Citizen>> getCityCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -40,6 +43,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/town={name}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
     public ResponseEntity<List<Citizen>> getTownCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -51,6 +55,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/district={name}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
     public ResponseEntity<List<Citizen>> getDistrictCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -62,6 +67,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/quarter={name}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
     public ResponseEntity<List<Citizen>> getQuarterCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -73,9 +79,8 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/id={id}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @PreAuthorize("hasRole('ROLE_CITIZEN')")
     public ResponseEntity<Citizen> getCitizenById(@PathVariable("id") long id){
         return citizenService.getCitizenById(id);
     }
-
-
 }

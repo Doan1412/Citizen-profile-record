@@ -1,6 +1,7 @@
 package com.example.pbl.entity;
 
 import com.example.pbl.util.PasswordUtil;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -9,9 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 @Builder
 @Entity
 @Data
@@ -21,19 +21,18 @@ import java.util.List;
 @TableGenerator(name="citizen", initialValue=1, allocationSize=1)
 public class Citizen implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long citizen_id;
     private String name;
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> role=new HashSet<>();
     private Date birth;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
-    @JoinColumn(name = "id_family")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @JoinColumn(name = "family_id",referencedColumnName = "family_id")
     private Family family;//id so ho khau
     private boolean gender; //gioi tinh
     private String ethnic; //Dan toc
@@ -52,6 +51,24 @@ public class Citizen implements UserDetails {
     private List<String> criminalRecord; //tien an tien su
     private String email;
     private String phone;
+
+    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone) {
+        this.name = name;
+        this.password = password;
+        this.role = role;
+        this.birth = birth;
+        this.family = family;
+        this.gender = gender;
+        this.ethnic = ethnic;
+        this.religion = religion;
+        this.nationality = nationality;
+        this.address = address;
+        this.location = location;
+        this.profession = profession;
+        this.criminalRecord = criminalRecord;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public Long getId() {
         return citizen_id;
@@ -129,11 +146,11 @@ public class Citizen implements UserDetails {
         this.password = password;
     }
 
-    public Role getRole() {
+    public Set<Role> getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Set<Role> role) {
         this.role = role;
     }
 
@@ -205,7 +222,12 @@ public class Citizen implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        Set<GrantedAuthority> authorities=new HashSet<>();
+        for(var r:this.role){
+            var sga=new SimpleGrantedAuthority(r.name());
+            authorities.add(sga);
+        }
+        return authorities;
     }
 
     @Override

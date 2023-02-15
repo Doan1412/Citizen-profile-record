@@ -13,7 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +28,18 @@ public class AuthenticationService {
         Family family=new Family();
         if(familyData.isPresent()){
             family=familyData.get();
+        } else {
+            familyRepository.save(family);
+            familyRepository.flush();
         }
+        Set<Role> roleSet=new HashSet<>();
+        roleSet.add(Role.CITIZEN);
         var citizen= Citizen.builder()
                 .name(request.getName())
                 .password(PasswordUtil.encode(request.getPassword()))
-                .role(Role.CITIZEN)
+                .role(roleSet)
                 //.birth(request.getBirth())
-                .family(family)
+                //.family(familyRepository.findById(family.getId_Family()).get())
                 .gender(request.isGender())
                 .ethnic(request.getEthnic())
                 .religion(request.getReligion())
@@ -73,13 +78,18 @@ public class AuthenticationService {
         Family family=new Family();
         if(familyData.isPresent()){
             family=familyData.get();
+        } else {
+//            familyRepository.save(family);
+//            familyRepository.flush();
         }
+        Set<Role> roleSet=new HashSet<>();
+        roleSet.add(Role.CITIZEN);
         var citizen= Citizen.builder()
                 .name(request.getName())
                 .password(PasswordUtil.encode(request.getPassword()))
-                .role(Role.CITIZEN)
+                .role(roleSet)
                 //.birth(request.getBirth())
-                .family(family)
+                //.family(familyRepository.findById(family.getId_Family()).get())
                 .gender(request.isGender())
                 .ethnic(request.getEthnic())
                 .religion(request.getReligion())
@@ -91,6 +101,9 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .build();
         citizenRepository.save(citizen);
+        family.addFamilyMenber(citizen);
+        family.setId_Family(request.idFamily);
+        familyRepository.save(family);
         var jwtToken = jwtService.generateToken(citizen);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

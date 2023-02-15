@@ -56,9 +56,6 @@ public class CitizenService {
         return citizenRepository.save(citizen);
     }
 
-    // tao tk citizen moi
-    public Citizen createUser(Citizen citizen) {
-        citizen.setPassword(PasswordUtil.encode(citizen.getPassword()));
-        return citizenRepository.save(citizen);
-    }
+
+
 }
