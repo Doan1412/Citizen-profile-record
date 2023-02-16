@@ -20,7 +20,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/country")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Citizen>> getAllCitizen(){
         try {
             List<Citizen> citizenList=citizenService.getAllCitizen();
@@ -31,7 +31,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/city={name}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Citizen>> getCityCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -43,7 +43,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/town={name}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Citizen>> getTownCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -55,7 +55,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/district={name}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Citizen>> getDistrictCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -67,7 +67,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/quarter={name}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Citizen>> getQuarterCitizen(@PathVariable("name") String name){
         try {
             name=name.replace('-',' ');
@@ -79,7 +79,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/id={id}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasRole('ROLE_CITIZEN')")
+    @PreAuthorize("hasAuthority('CITIZEN')")
     public ResponseEntity<Citizen> getCitizenById(@PathVariable("id") long id){
         return citizenService.getCitizenById(id);
     }

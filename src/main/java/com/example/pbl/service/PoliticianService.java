@@ -36,5 +36,4 @@ public class PoliticianService {
     public List<Politician> getPoliticianByLevelManagerAndAreaManage(String levelManage,String areaManage){
         return politicianRepository.findByLevelManagerAndAreaManage(levelManage,areaManage);
     }
-
 }

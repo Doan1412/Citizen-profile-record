@@ -1,9 +1,15 @@
 package com.example.pbl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,9 +21,12 @@ public class Requirement {
     @ManyToOne
     @JoinColumn(name = "author_citizen_id")
     private Citizen author;
-    @OneToOne
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude
     @JoinColumn(name = "recipient_politician_id")
-    private Politician recipient;
+    private Collection<Politician> recipient;
     @Column(nullable = false)
     private String description;
     private Date date;
@@ -26,7 +35,7 @@ public class Requirement {
 
     }
 
-    public Requirement(Citizen author, Politician recipient, String description, Date date, String status) {
+    public Requirement(Citizen author, Collection<Politician> recipient, String description, Date date, String status) {
         this.author = author;
         this.recipient = recipient;
         this.description = description;
@@ -50,11 +59,12 @@ public class Requirement {
         this.author = author;
     }
 
-    public Politician getRecipient() {
+    public Collection<Politician> getRecipient() {
+
         return recipient;
     }
 
-    public void setRecipient(Politician recipient) {
+    public void setRecipient(List<Politician> recipient) {
         this.recipient = recipient;
     }
 
@@ -80,6 +90,16 @@ public class Requirement {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public void addRecipient(Politician politician){
+        if(this.recipient!=null){
+            this.recipient.add(politician);
+        }
+        else {
+            List<Politician> list=new ArrayList<>();
+            list.add(politician);
+            this.recipient=list;
+        }
     }
 
     @Override

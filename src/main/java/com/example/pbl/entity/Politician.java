@@ -1,17 +1,19 @@
 package com.example.pbl.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 @Entity
 @Data
+//@Builder
 @TableGenerator(name="politician", initialValue=1, allocationSize=1)
 public class Politician {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long politician_id;
+    private Long politicianId;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
@@ -29,11 +31,11 @@ public class Politician {
     }
 
     public Long getPolitician_id() {
-        return politician_id;
+        return politicianId;
     }
 
     public void setPolitician_id(Long politician_id) {
-        this.politician_id = politician_id;
+        this.politicianId = politician_id;
     }
 
     public Citizen getCitizen() {

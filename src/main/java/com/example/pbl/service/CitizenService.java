@@ -45,14 +45,13 @@ public class CitizenService {
         return citizenRepository.findByLocationDistrict(name);
     }
 
-    public Citizen addCitizen(Citizen movie){
-        return citizenRepository.save(movie);
+    public Citizen addCitizen(Citizen citizen){
+        return citizenRepository.save(citizen);
     }
     public void deleteCitizen(Long id){
         citizenRepository.deleteById(id);
     }
     public Citizen updateCitizen(Citizen citizen){
-        citizenRepository.deleteById(citizen.getId());
         return citizenRepository.save(citizen);
     }
 

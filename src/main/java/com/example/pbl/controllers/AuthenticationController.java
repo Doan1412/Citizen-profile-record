@@ -1,9 +1,10 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.Request.PoliticianRegisterRequest;
 import com.example.pbl.authentication.AuthenticationRequest;
 import com.example.pbl.authentication.AuthenticationResponse;
 import com.example.pbl.authentication.AuthenticationService;
-import com.example.pbl.authentication.RegisterRequest;
+import com.example.pbl.Request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(service.registerCitizen(request));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
@@ -30,6 +31,11 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
-
+    @PostMapping("/registerPolitician")
+    public ResponseEntity<AuthenticationResponse>registerPolitician(
+            @RequestBody PoliticianRegisterRequest request
+    ) {
+        return ResponseEntity.ok(service.registerPolitician(request));
+    }
 
 }

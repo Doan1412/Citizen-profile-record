@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RequirementRepository extends JpaRepository<Requirement, Long> {
     List<Requirement>findByAuthorName(String name);
-
+    List<Requirement>findByRecipientPoliticianId(Long id);
 }

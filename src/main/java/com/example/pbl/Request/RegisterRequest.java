@@ -1,4 +1,4 @@
-package com.example.pbl.authentication;
+package com.example.pbl.Request;
 
 import com.example.pbl.entity.Role;
 import lombok.AllArgsConstructor;
