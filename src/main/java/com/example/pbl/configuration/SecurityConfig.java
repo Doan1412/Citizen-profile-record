@@ -56,7 +56,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         List<String> allowOrigins = Arrays.asList("*");
-        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedOriginPatterns(allowOrigins);
         configuration.setAllowedMethods(singletonList("*"));
         configuration.setAllowedHeaders(singletonList("*"));
         //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
