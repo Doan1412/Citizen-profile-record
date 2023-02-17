@@ -1,7 +1,7 @@
 package com.example.pbl.authentication;
 
-import com.example.pbl.Request.PoliticianRegisterRequest;
-import com.example.pbl.Request.RegisterRequest;
+import com.example.pbl.DTO.PoliticianRegisterRequest;
+import com.example.pbl.DTO.RegisterRequest;
 import com.example.pbl.entity.*;
 import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.repositories.FamilyRepository;
@@ -9,8 +9,6 @@ import com.example.pbl.repositories.PoliticianRepository;
 import com.example.pbl.service.JwtService;
 import com.example.pbl.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -57,7 +55,7 @@ public class AuthenticationService {
                 .name(request.getName())
                 .password(PasswordUtil.encode(request.getPassword()))
                 .role(roleSet)
-                //.birth(request.getBirth())
+                .birth(request.getBirth())
                 //.family(familyRepository.findById(family.getId_Family()).get())
                 .gender(request.isGender())
                 .ethnic(request.getEthnic())
@@ -68,6 +66,7 @@ public class AuthenticationService {
                 .profession(request.getProfession())
                 .phone(request.getPhone())
                 .email(request.getEmail())
+                .married(request.isMarried())
                 .build();
         citizenRepository.save(citizen);
         family.addFamilyMenber(citizen);

@@ -1,5 +1,6 @@
-package com.example.pbl.Request;
+package com.example.pbl.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,6 @@ public class RequirementRequest {
     Long author_id;
     List <Long> recipient_id;
     String description;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Indochina")
     Date date;
 }

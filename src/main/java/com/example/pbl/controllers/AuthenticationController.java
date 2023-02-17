@@ -1,20 +1,18 @@
 package com.example.pbl.controllers;
 
-import com.example.pbl.Request.PoliticianRegisterRequest;
+import com.example.pbl.DTO.PoliticianRegisterRequest;
 import com.example.pbl.authentication.AuthenticationRequest;
 import com.example.pbl.authentication.AuthenticationResponse;
 import com.example.pbl.authentication.AuthenticationService;
-import com.example.pbl.Request.RegisterRequest;
+import com.example.pbl.DTO.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthenticationController {
 
     private final AuthenticationService service;

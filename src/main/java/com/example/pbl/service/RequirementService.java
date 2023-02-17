@@ -1,6 +1,6 @@
 package com.example.pbl.service;
 
-import com.example.pbl.Request.RequirementRequest;
+import com.example.pbl.DTO.RequirementRequest;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Politician;
 import com.example.pbl.entity.Requirement;

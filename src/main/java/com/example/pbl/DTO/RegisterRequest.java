@@ -1,6 +1,7 @@
-package com.example.pbl.Request;
+package com.example.pbl.DTO;
 
 import com.example.pbl.entity.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,8 @@ import java.util.List;
 public class RegisterRequest {
     String name;
     String password;
-    //Date birth;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Indochina")
+    Date birth;
     Long idFamily;
     boolean gender;
     String ethnic;
@@ -31,4 +33,5 @@ public class RegisterRequest {
     List<String> criminalRecord;
     String email;
     String phone;
+    boolean married;
 }

@@ -1,9 +1,7 @@
 package com.example.pbl.controllers;
 
-import com.example.pbl.Request.RequirementRequest;
-import com.example.pbl.entity.Citizen;
+import com.example.pbl.DTO.RequirementRequest;
 import com.example.pbl.entity.Requirement;
-import com.example.pbl.service.CitizenService;
 import com.example.pbl.service.RequirementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

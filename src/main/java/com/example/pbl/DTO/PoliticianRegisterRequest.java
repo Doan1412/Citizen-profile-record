@@ -1,4 +1,4 @@
-package com.example.pbl.Request;
+package com.example.pbl.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

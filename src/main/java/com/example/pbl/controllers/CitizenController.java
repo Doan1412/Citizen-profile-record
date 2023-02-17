@@ -20,7 +20,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/country")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Citizen>> getAllCitizen(){
         try {
             List<Citizen> citizenList=citizenService.getAllCitizen();

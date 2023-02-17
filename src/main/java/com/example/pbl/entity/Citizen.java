@@ -51,8 +51,10 @@ public class Citizen implements UserDetails {
     private List<String> criminalRecord; //tien an tien su
     private String email;
     private String phone;
+    @JoinColumn(name = "maritalStatus")
+    private boolean married;
 
-    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone) {
+    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone,boolean isMarried) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -68,6 +70,7 @@ public class Citizen implements UserDetails {
         this.criminalRecord = criminalRecord;
         this.email = email;
         this.phone = phone;
+        this.married=isMarried;
     }
 
     public Long getId() {
@@ -202,21 +205,34 @@ public class Citizen implements UserDetails {
         this.family = family;
     }
 
+    public boolean isMarried() {
+        return married;
+    }
+
+    public void setMarried(boolean married) {
+        married = married;
+    }
+
     @Override
     public String toString() {
-        return "citizen{" +
-                "id=" + citizen_id +
+        return "Citizen{" +
+                "citizen_id=" + citizen_id +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
                 ", birth=" + birth +
-                ", idFamily=" + family +
-                ", Gender=" + gender +
+                ", family=" + family +
+                ", gender=" + gender +
                 ", ethnic='" + ethnic + '\'' +
                 ", religion='" + religion + '\'' +
                 ", nationality='" + nationality + '\'' +
                 ", address='" + address + '\'' +
                 ", location=" + location +
                 ", profession='" + profession + '\'' +
-                ", criminalRecord='" + criminalRecord + '\'' +
+                ", criminalRecord=" + criminalRecord +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", married=" + married +
                 '}';
     }
 
