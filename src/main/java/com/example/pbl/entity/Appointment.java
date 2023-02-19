@@ -23,6 +23,9 @@ public class Appointment {
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "politician_id")
+    private Politician politician;
     @Column(name = "appointment_date")
     private Date appointmentDate;
 
@@ -31,8 +34,6 @@ public class Appointment {
 
     @Column(name = "end_time")
     private String endTime;
-
-
     // getters and setters
 
     public Long getId() {
@@ -75,11 +76,20 @@ public class Appointment {
         this.endTime = endTime;
     }
 
+    public Politician getPolitician() {
+        return politician;
+    }
+
+    public void setPolitician(Politician politician) {
+        this.politician = politician;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
                 "id=" + id +
                 ", citizen=" + citizen +
+                ", politician=" + politician +
                 ", appointmentDate=" + appointmentDate +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +

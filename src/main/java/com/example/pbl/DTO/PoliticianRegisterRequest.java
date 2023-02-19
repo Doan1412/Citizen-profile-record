@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 @Builder
@@ -13,5 +14,6 @@ public class PoliticianRegisterRequest {
     Long citizen_id;
     String position;//chuc danh
     String areaManage;
+    @NotNull
     String levelManager;
 }

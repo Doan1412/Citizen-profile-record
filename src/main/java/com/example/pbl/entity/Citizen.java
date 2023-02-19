@@ -22,7 +22,8 @@ import java.util.*;
 public class Citizen implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long citizen_id;
+    @Column(name="citizen_id")
+    private Long citizenId;
     private String name;
     @Column(nullable = false)
     private String password;
@@ -53,8 +54,9 @@ public class Citizen implements UserDetails {
     private String phone;
     @JoinColumn(name = "maritalStatus")
     private boolean married;
+    private String imgUrl;
 
-    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone,boolean isMarried) {
+    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone,boolean isMarried,String imgUrl) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -71,14 +73,15 @@ public class Citizen implements UserDetails {
         this.email = email;
         this.phone = phone;
         this.married=isMarried;
+        this.imgUrl=imgUrl;
     }
 
     public Long getId() {
-        return citizen_id;
+        return citizenId;
     }
 
     public void setId(Long id) {
-        this.citizen_id = id;
+        this.citizenId = id;
     }
 
     public String getName() {
@@ -138,11 +141,11 @@ public class Citizen implements UserDetails {
     }
 
     public Long getCitizen_id() {
-        return citizen_id;
+        return citizenId;
     }
 
     public void setCitizen_id(Long citizen_id) {
-        this.citizen_id = citizen_id;
+        this.citizenId = citizen_id;
     }
 
     public void setPassword(String password) {
@@ -213,10 +216,18 @@ public class Citizen implements UserDetails {
         married = married;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
         return "Citizen{" +
-                "citizen_id=" + citizen_id +
+                "citizen_id=" + citizenId +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
@@ -233,6 +244,7 @@ public class Citizen implements UserDetails {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", married=" + married +
+                ", imgUrl=" + imgUrl +
                 '}';
     }
 
@@ -253,7 +265,7 @@ public class Citizen implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(citizen_id) ;
+        return String.valueOf(citizenId) ;
     }
 
     @Override

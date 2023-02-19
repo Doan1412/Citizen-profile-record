@@ -1,6 +1,5 @@
 package com.example.pbl.DTO;
 
-import com.example.pbl.entity.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,4 +33,5 @@ public class RegisterRequest {
     String email;
     String phone;
     boolean married;
+    String imgUrl;
 }

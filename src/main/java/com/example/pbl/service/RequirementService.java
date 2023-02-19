@@ -1,6 +1,7 @@
 package com.example.pbl.service;
 
 import com.example.pbl.DTO.RequirementRequest;
+import com.example.pbl.entity.Appointment;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Politician;
 import com.example.pbl.entity.Requirement;
@@ -67,5 +68,19 @@ public class RequirementService {
         requirement.setStatus("Đang xử lý");
         requirementRepository.save(requirement);
         return new ResponseEntity<>(requirement,HttpStatus.OK);
+    }
+    public ResponseEntity<Requirement>forwardRequest(Long requirementId, Long nextPoliticianId){
+        Optional<Requirement>requirementData=requirementRepository.findById(requirementId);
+        if(requirementData.isPresent()){
+            Optional<Politician> politicianData= politicianRepository.findById(nextPoliticianId);
+            if(politicianData.isPresent()){
+                requirementData.get().addRecipient(politicianData.get());
+                requirementRepository.save(requirementData.get());
+            }
+            else {
+                return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 }

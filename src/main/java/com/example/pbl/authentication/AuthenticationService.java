@@ -67,6 +67,7 @@ public class AuthenticationService {
                 .phone(request.getPhone())
                 .email(request.getEmail())
                 .married(request.isMarried())
+                .imgUrl(request.getImgUrl())
                 .build();
         citizenRepository.save(citizen);
         family.addFamilyMenber(citizen);
@@ -79,9 +80,15 @@ public class AuthenticationService {
     public AuthenticationResponse registerPolitician(PoliticianRegisterRequest politicianRegisterRequest){
         Optional<Citizen> citizenData= citizenRepository.findById(politicianRegisterRequest.getCitizen_id());
         if(citizenData.isPresent()){
-            Politician politician=new Politician(citizenData.get(),politicianRegisterRequest.getPosition(), politicianRegisterRequest.getAreaManage(), politicianRegisterRequest.getLevelManager());
+            //Politician politician=new Politician(citizenData.get(),politicianRegisterRequest.getPosition(), politicianRegisterRequest.getAreaManage(), politicianRegisterRequest.getLevelManager());
             citizenData.get().getRole().add(Role.POLITICIAN);
             citizenRepository.save(citizenData.get());
+            var politician=Politician.builder()
+                    .citizen(citizenData.get())
+                    .levelManager(politicianRegisterRequest.getLevelManager())
+                    .areaManage(politicianRegisterRequest.getAreaManage())
+                    .position(politicianRegisterRequest.getPosition())
+                    .build();
             politicianRepository.save(politician);
             var jwtToken = jwtService.generateToken(citizenData.get());
             return AuthenticationResponse.builder()

@@ -54,7 +54,4 @@ public class CitizenService {
     public Citizen updateCitizen(Citizen citizen){
         return citizenRepository.save(citizen);
     }
-
-
-
 }

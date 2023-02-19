@@ -1,14 +1,17 @@
 package com.example.pbl.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
+@Builder
 @Entity
 @Data
-//@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableGenerator(name="politician", initialValue=1, allocationSize=1)
 public class Politician {
     @Id
@@ -21,14 +24,6 @@ public class Politician {
     private String areaManage;
     private String levelManager;// cap
 
-    public Politician(){}
-
-    public Politician(Citizen citizen, String position, String areaManage, String levelManager) {
-        this.citizen = citizen;
-        this.position = position;
-        this.areaManage = areaManage;
-        this.levelManager = levelManager;
-    }
 
     public Long getPolitician_id() {
         return politicianId;
@@ -70,4 +65,14 @@ public class Politician {
         this.levelManager = levelManager;
     }
 
+    @Override
+    public String toString() {
+        return "Politician{" +
+                "politicianId=" + politicianId +
+                ", citizen=" + citizen +
+                ", position='" + position + '\'' +
+                ", areaManage='" + areaManage + '\'' +
+                ", levelManager='" + levelManager + '\'' +
+                '}';
+    }
 }
