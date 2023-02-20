@@ -48,15 +48,14 @@ public class Citizen implements UserDetails {
     @ToString.Exclude
     private Location location;//Vi tri
     private String profession; //Nghe nghiep
-    @ElementCollection
-    private List<String> criminalRecord; //tien an tien su
+    private String criminalRecord; //tien an tien su
     private String email;
     private String phone;
     @JoinColumn(name = "maritalStatus")
     private boolean married;
     private String imgUrl;
 
-    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, List<String> criminalRecord, String email, String phone,boolean isMarried,String imgUrl) {
+    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, String criminalRecord, String email, String phone,boolean isMarried,String imgUrl) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -160,11 +159,11 @@ public class Citizen implements UserDetails {
         this.role = role;
     }
 
-    public List<String> getCriminalRecord() {
+    public String getCriminalRecord() {
         return criminalRecord;
     }
 
-    public void setCriminalRecord(List<String> criminalRecord) {
+    public void setCriminalRecord(String criminalRecord) {
         this.criminalRecord = criminalRecord;
     }
 

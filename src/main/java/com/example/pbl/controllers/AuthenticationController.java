@@ -6,6 +6,7 @@ import com.example.pbl.authentication.AuthenticationResponse;
 import com.example.pbl.authentication.AuthenticationService;
 import com.example.pbl.DTO.RegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +36,8 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.registerPolitician(request));
     }
-
+    @GetMapping("/user")
+    public  ResponseEntity<Void>user(){
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

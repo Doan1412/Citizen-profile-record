@@ -36,6 +36,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(citizen);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(citizen.getRole())
                 .build();
     }
 
@@ -46,7 +47,7 @@ public class AuthenticationService {
         if(familyData.isPresent()){
             family=familyData.get();
         } else {
-//            familyRepository.save(family);
+           //familyRepository.save(family);
 //            familyRepository.flush();
         }
         Set<Role> roleSet=new HashSet<>();
@@ -56,7 +57,7 @@ public class AuthenticationService {
                 .password(PasswordUtil.encode(request.getPassword()))
                 .role(roleSet)
                 .birth(request.getBirth())
-                //.family(familyRepository.findById(family.getId_Family()).get())
+                .family(family)
                 .gender(request.isGender())
                 .ethnic(request.getEthnic())
                 .religion(request.getReligion())
@@ -70,11 +71,11 @@ public class AuthenticationService {
                 .imgUrl(request.getImgUrl())
                 .build();
         citizenRepository.save(citizen);
-        family.addFamilyMenber(citizen);
         familyRepository.save(family);
         var jwtToken = jwtService.generateToken(citizen);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(citizen.getRole())
                 .build();
     }
     public AuthenticationResponse registerPolitician(PoliticianRegisterRequest politicianRegisterRequest){
@@ -93,6 +94,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(citizenData.get());
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .role(citizenData.get().getRole())
                     .build();
         }
         return AuthenticationResponse.builder().build();
