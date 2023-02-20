@@ -76,6 +76,7 @@ public class RequirementService {
             if(politicianData.isPresent()){
                 requirementData.get().addRecipient(politicianData.get());
                 requirementRepository.save(requirementData.get());
+                return new ResponseEntity<>(requirementData.get(),HttpStatus.OK);
             }
             else {
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

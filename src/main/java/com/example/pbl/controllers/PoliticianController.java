@@ -30,7 +30,7 @@ public class PoliticianController {
     }
     @GetMapping("/listPolitician")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestParam(value="levelManage", required=true) String levelManage, @RequestParam(value="areaManage", required=true) String areaManage){
+    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestParam(value="levelManage", required=true) String levelManage, @RequestBody String areaManage){
         try {
             areaManage=areaManage.replace('-',' ');
             levelManage=levelManage.replace('-',' ');
