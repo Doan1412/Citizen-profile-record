@@ -1,5 +1,6 @@
 package com.example.pbl.authentication;
 
+import com.example.pbl.DTO.ChangePassword;
 import com.example.pbl.DTO.PoliticianRegisterRequest;
 import com.example.pbl.DTO.RegisterRequest;
 import com.example.pbl.entity.*;
@@ -69,6 +70,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .married(request.isMarried())
                 .imgUrl(request.getImgUrl())
+                .criminalRecord(request.getCriminalRecord())
                 .build();
         citizenRepository.save(citizen);
         familyRepository.save(family);
@@ -98,5 +100,23 @@ public class AuthenticationService {
                     .build();
         }
         return AuthenticationResponse.builder().build();
+    }
+
+    public AuthenticationResponse changePassword(ChangePassword request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getCitizen_id(),
+                        request.getOldPassword()
+                )
+        );
+        var citizen = citizenRepository.findById(Long.valueOf(request.getCitizen_id()))
+                .orElseThrow();
+        citizen.setPassword(PasswordUtil.encode(request.getNewPassword()));
+        citizenRepository.save(citizen);
+        var jwtToken = jwtService.generateToken(citizen);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(citizen.getRole())
+                .build();
     }
 }

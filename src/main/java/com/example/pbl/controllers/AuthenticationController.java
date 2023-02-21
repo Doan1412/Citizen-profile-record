@@ -1,5 +1,6 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.DTO.ChangePassword;
 import com.example.pbl.DTO.PoliticianRegisterRequest;
 import com.example.pbl.authentication.AuthenticationRequest;
 import com.example.pbl.authentication.AuthenticationResponse;
@@ -8,6 +9,7 @@ import com.example.pbl.DTO.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,5 +41,12 @@ public class AuthenticationController {
     @GetMapping("/user")
     public  ResponseEntity<Void>user(){
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PostMapping("/changePassword")
+    public ResponseEntity<AuthenticationResponse>changePassword (
+            @RequestBody ChangePassword request
+    ){
+        return ResponseEntity.ok(service.changePassword(request));
     }
 }

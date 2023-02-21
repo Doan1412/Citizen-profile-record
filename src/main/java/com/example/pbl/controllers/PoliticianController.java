@@ -1,7 +1,9 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.DTO.PoliList;
 import com.example.pbl.entity.Politician;
 import com.example.pbl.service.PoliticianService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +32,9 @@ public class PoliticianController {
     }
     @GetMapping("/listPolitician")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestParam(value="levelManage", required=true) String levelManage, @RequestBody String areaManage){
+    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestBody PoliList poliList){
         try {
-            areaManage=areaManage.replace('-',' ');
-            levelManage=levelManage.replace('-',' ');
-            List<Politician> PoliticianList=politicianService.getPoliticianByLevelManagerAndAreaManage(levelManage, areaManage);
+            List<Politician> PoliticianList=politicianService.getPoliticianByLevelManagerAndAreaManage(poliList);
             return new ResponseEntity<>(PoliticianList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

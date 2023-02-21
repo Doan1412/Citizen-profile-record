@@ -1,5 +1,6 @@
 package com.example.pbl.service;
 
+import com.example.pbl.DTO.PoliList;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Politician;
 import com.example.pbl.repositories.CitizenRepository;
@@ -33,7 +34,10 @@ public class PoliticianService {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-    public List<Politician> getPoliticianByLevelManagerAndAreaManage(String levelManage,String areaManage){
-        return politicianRepository.findByLevelManagerAndAreaManage(levelManage,areaManage);
+    public List<Politician> getPoliticianByLevelManagerAndAreaManage(PoliList poliList){
+        String levelManage=poliList.getLevelManager();
+        String areaManage= poliList.getAreaManage();
+        System.out.println(levelManage+" "+areaManage);
+        return politicianRepository.findByLevelManagerAndAreaManageContaining(levelManage,areaManage);
     }
 }

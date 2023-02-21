@@ -1,5 +1,6 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.DTO.RequestString;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.service.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,49 +30,45 @@ public class CitizenController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/listCitizen/city={name}")
+    @GetMapping("/listCitizen/city")
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Citizen>> getCityCitizen(@PathVariable("name") String name){
+    public ResponseEntity<List<Citizen>> getCityCitizen(@RequestBody RequestString requestString){
         try {
-            name=name.replace('-',' ');
-            List<Citizen> citizenList=citizenService.getCityCitizen(name);
+            List<Citizen> citizenList=citizenService.getCityCitizen(requestString.getString());
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/listCitizen/town={name}")
+    @GetMapping("/listCitizen/town")
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Citizen>> getTownCitizen(@PathVariable("name") String name){
+    public ResponseEntity<List<Citizen>> getTownCitizen(@RequestBody RequestString requestString){
         try {
-            name=name.replace('-',' ');
-            List<Citizen> citizenList=citizenService.getTownCitizen(name);
+            List<Citizen> citizenList=citizenService.getTownCitizen(requestString.getString());
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/listCitizen/district={name}")
+    @GetMapping("/listCitizen/district")
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Citizen>> getDistrictCitizen(@PathVariable("name") String name){
+    public ResponseEntity<List<Citizen>> getDistrictCitizen(@RequestBody RequestString requestString){
         try {
-            name=name.replace('-',' ');
-            List<Citizen> citizenList=citizenService.getDistrictCitizen(name);
+            List<Citizen> citizenList=citizenService.getDistrictCitizen(requestString.getString());
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/listCitizen/quarter={name}")
+    @GetMapping("/listCitizen/quarter")
     @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Citizen>> getQuarterCitizen(@PathVariable("name") String name){
+    public ResponseEntity<List<Citizen>> getQuarterCitizen(@RequestBody RequestString requestString){
         try {
-            name=name.replace('-',' ');
-            List<Citizen> citizenList=citizenService.getQuarterCitizen(name);
+            List<Citizen> citizenList=citizenService.getQuarterCitizen(requestString.getString());
             return new ResponseEntity<>(citizenList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

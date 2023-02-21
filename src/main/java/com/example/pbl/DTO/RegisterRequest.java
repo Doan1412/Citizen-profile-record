@@ -16,7 +16,7 @@ import java.util.List;
 public class RegisterRequest {
     String name;
     String password;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Indochina")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
     Date birth;
     Long idFamily;
     boolean gender;
@@ -29,7 +29,7 @@ public class RegisterRequest {
     String district;
     String city;
     String profession;
-    List<String> criminalRecord;
+    String criminalRecord;
     String email;
     String phone;
     boolean married;
