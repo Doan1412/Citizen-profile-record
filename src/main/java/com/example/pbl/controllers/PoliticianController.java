@@ -2,6 +2,7 @@ package com.example.pbl.controllers;
 
 import com.example.pbl.DTO.PoliList;
 import com.example.pbl.entity.Politician;
+import com.example.pbl.repositories.PoliticianRepository;
 import com.example.pbl.service.PoliticianService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ import java.util.List;
 @RequestMapping(path="api/politician")
 public class PoliticianController {
     private final PoliticianService politicianService;
+    private final PoliticianRepository politicianRepository;
+
     @Autowired
-    public PoliticianController(PoliticianService politicianService) {
+    public PoliticianController(PoliticianService politicianService,
+                                PoliticianRepository politicianRepository) {
         this.politicianService = politicianService;
+        this.politicianRepository = politicianRepository;
     }
     @GetMapping("/listPolitician/country")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -39,5 +44,9 @@ public class PoliticianController {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/id={id}")
+    public ResponseEntity<Politician>getPoliticianById(@PathVariable long id){
+        return politicianService.getPoliticianById(id);
     }
 }
