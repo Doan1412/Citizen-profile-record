@@ -27,15 +27,15 @@ public class AppointmentController {
 
     @PostMapping("/new")
     @PreAuthorize("hasAuthority('CITIZEN')")
-    public ResponseEntity<Appointment> addRequirement(
+    public ResponseEntity<Appointment> addAppointment(
             @RequestBody AppointmentDto appointmentDto
             ) {
         return appointmentService.addAppointment(appointmentDto);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteResource(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
     @GetMapping("/citizen_id={id}")
     public ResponseEntity<List<Appointment>>getCitizenAppointment(@PathVariable Long id){
@@ -56,6 +56,10 @@ public class AppointmentController {
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @PutMapping("/update/id={id}")
+    public ResponseEntity<Appointment>updateAppointment(@PathVariable("id") long id,@RequestBody AppointmentDto appointmentDto){
+        return appointmentService.updateAppointment(id,appointmentDto);
     }
 //    @GetMapping("/politicianDateAppointment")
 //    public ResponseEntity<List<Appointment>>getPoliticianAppointment(

@@ -66,4 +66,19 @@ public class AppointmentService {
     public List<Appointment>getPoliticianAppointmentByDate(Long politician_id, Date date){
         return appointmentRepository.findByAppointmentDateAndPoliticianPoliticianId(date,politician_id);
     }
+    public ResponseEntity<Appointment> updateAppointment(Long id,AppointmentDto appointmentDto){
+        var appointment=Appointment.builder()
+                .id(id)
+                .citizen(citizenRepository.findById(appointmentDto.getCitizen_id()).get())
+                .politician(politicianRepository.findById(appointmentDto.getPolitician_id()).get())
+                .appointmentDate(appointmentDto.getAppointmentDate())
+                .startTime(appointmentDto.getStartTime())
+                .endTime(appointmentDto.getEndTime())
+                .build();
+        if(isOverlapping(appointment, appointmentDto.getPolitician_id())){
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
+        appointmentRepository.save(appointment);
+        return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
 }

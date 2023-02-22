@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PoliticianRegisterRequest {
-    Long citizen_id;
-    String position;//chuc danh
-    String areaManage;
+    private Long citizen_id;
+    private String position;//chuc danh
+    private String areaManage;
     @NotNull
-    String levelManager;
+    private String levelManager;
 }

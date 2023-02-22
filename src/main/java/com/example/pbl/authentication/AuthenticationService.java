@@ -47,9 +47,6 @@ public class AuthenticationService {
         Family family=new Family();
         if(familyData.isPresent()){
             family=familyData.get();
-        } else {
-           //familyRepository.save(family);
-//            familyRepository.flush();
         }
         Set<Role> roleSet=new HashSet<>();
         roleSet.add(Role.CITIZEN);

@@ -1,7 +1,10 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.DTO.RegisterRequest;
 import com.example.pbl.DTO.RequestString;
+import com.example.pbl.DTO.UpdateCitizen;
 import com.example.pbl.entity.Citizen;
+import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.service.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,13 @@ import java.util.List;
 @RequestMapping(path="api/citizen")
 public class CitizenController {
     private final CitizenService citizenService;
+    private final CitizenRepository citizenRepository;
+
     @Autowired
-    public CitizenController(CitizenService citizenService) {
+    public CitizenController(CitizenService citizenService,
+                             CitizenRepository citizenRepository) {
         this.citizenService = citizenService;
+        this.citizenRepository = citizenRepository;
     }
     @GetMapping("/listCitizen/country")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -75,9 +82,19 @@ public class CitizenController {
         }
     }
     @GetMapping("/listCitizen/id={id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     @PreAuthorize("hasAuthority('CITIZEN')")
     public ResponseEntity<Citizen> getCitizenById(@PathVariable("id") long id){
         return citizenService.getCitizenById(id);
+    }
+    @PutMapping("/update")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<Citizen> updateCitizen(@RequestBody UpdateCitizen request){
+        return citizenService.updateCitizen(request);
+    }
+    @DeleteMapping("/delete/id={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<Void> deleteCitizen(@PathVariable("id") long id){
+        citizenService.deleteCitizen(id);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

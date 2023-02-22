@@ -14,9 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequirementRequest {
-    Long author_id;
-    List <Long> recipient_id;
-    String description;
+    private Long author_id;
+    private List <Long> recipient_id;
+    private String description;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Indochina")
-    Date date;
+    private Date date;
 }

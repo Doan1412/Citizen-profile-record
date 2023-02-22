@@ -2,10 +2,12 @@ package com.example.pbl.entity;
 
 import com.example.pbl.util.PasswordUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,33 +26,45 @@ public class Citizen implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="citizen_id")
     private Long citizenId;
+    @NotNull
     private String name;
     @Column(nullable = false)
+    @NotNull
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
+    @NotNull
     private Set<Role> role=new HashSet<>();
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
+    @NotNull
     private Date birth;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "family_id",referencedColumnName = "family_id")
     private Family family;//id so ho khau
+    @NotNull
     private boolean gender; //gioi tinh
+    @NotNull
     private String ethnic; //Dan toc
     private String religion; //Ton giao
+    @NotNull
     private String nationality; //
+    @NotNull
     private String address; // dia chi
-
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "location_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Location location;//Vi tri
+    @NotNull
     private String profession; //Nghe nghiep
     private String criminalRecord; //tien an tien su
     private String email;
+    @NotNull
     private String phone;
+    @NotNull
     @JoinColumn(name = "maritalStatus")
     private boolean married;
     private String imgUrl;

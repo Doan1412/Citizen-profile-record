@@ -20,7 +20,7 @@ public class RequirementController {
             ) {
         return requirementService.addRequirement(request);
     }
-    @PostMapping("/forwardRequest")
+    @PutMapping("/forwardRequest")
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<Requirement>forwardRequest(@RequestParam(value="idReq", required=true) String requirementId, @RequestParam(value="idPoli", required=true) String nextPliticianId){
         return requirementService.forwardRequest(Long.valueOf(requirementId),Long.valueOf(nextPliticianId));

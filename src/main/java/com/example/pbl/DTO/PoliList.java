@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PoliList {
-    String areaManage;
-    String levelManager;
+    private String areaManage;
+    private String levelManager;
 }

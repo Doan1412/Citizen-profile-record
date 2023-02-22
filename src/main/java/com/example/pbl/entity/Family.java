@@ -64,7 +64,7 @@ public class Family {
     @Override
     public String toString() {
         return "Family{" +
-                "id_Family=" + family_id +
+                "idFamily=" + family_id +
                 ", familyMemberList=" + familyMemberList +
                 '}';
     }
