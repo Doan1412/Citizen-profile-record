@@ -49,4 +49,8 @@ public class PoliticianController {
     public ResponseEntity<Politician>getPoliticianById(@PathVariable long id){
         return politicianService.getPoliticianById(id);
     }
+    @GetMapping("/citizenId={id}")
+    public ResponseEntity<Politician>getPoliticianByCitizenId(@PathVariable long id){
+        return politicianService.getPoliticianByCitizenId(id);
+    }
 }

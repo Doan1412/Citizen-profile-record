@@ -40,4 +40,13 @@ public class PoliticianService {
         System.out.println(levelManage+" "+areaManage);
         return politicianRepository.findByLevelManagerAndAreaManageContaining(levelManage,areaManage);
     }
+    public ResponseEntity<Politician> getPoliticianByCitizenId(Long id){
+        Optional<Politician> politicianData= politicianRepository.findByCitizenCitizenId(id);
+        if(politicianData.isPresent()){
+            return new ResponseEntity<>(politicianData.get(), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
 }
