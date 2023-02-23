@@ -83,7 +83,7 @@ public class CitizenService {
             var citizen = Citizen.builder()
                     .citizenId(request.getCitizenId())
                     .name(request.getName())
-                    .role(request.getRole())
+                    .role(citizenData.get().getRole())
                     .password(citizenData.get().getPassword())
                     .birth(request.getBirth())
                     .family(family)

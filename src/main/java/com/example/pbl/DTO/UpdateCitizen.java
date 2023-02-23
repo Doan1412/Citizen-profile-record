@@ -13,7 +13,6 @@ import java.util.Set;
 public class UpdateCitizen {
     private Long citizenId;
     private String name;
-    private Set<Role> role;
     private Date birth;
     private Long idFamily;//id so ho khau
     private boolean gender; //gioi tinh
