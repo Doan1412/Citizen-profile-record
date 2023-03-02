@@ -21,6 +21,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
+    //@PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
@@ -33,6 +34,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
     @PostMapping("/registerPolitician")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AuthenticationResponse>registerPolitician(
             @RequestBody PoliticianRegisterRequest request
     ) {

@@ -17,6 +17,6 @@ public class RequirementRequest {
     private Long author_id;
     private List <Long> recipient_id;
     private String description;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Indochina")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
     private Date date;
 }

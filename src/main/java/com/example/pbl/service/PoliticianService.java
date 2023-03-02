@@ -49,4 +49,20 @@ public class PoliticianService {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
+    public ResponseEntity<Politician>updatePolitician(long id,PoliList poliList){
+        Optional<Politician> politicianData= politicianRepository.findByCitizenCitizenId(id);
+        if(politicianData.isPresent()){
+            politicianData.get().setLevelManager(poliList.getLevelManager());
+            politicianData.get().setAreaManage(poliList.getAreaManage());
+            return new ResponseEntity<>(politicianRepository.save(politicianData.get()), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public void deletePolitician(long id) {
+        Politician politician=politicianRepository.findById(id).orElseThrow();
+        politicianRepository.deleteById(id);
+    }
 }

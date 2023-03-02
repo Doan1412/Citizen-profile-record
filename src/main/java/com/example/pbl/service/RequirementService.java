@@ -67,7 +67,7 @@ public class RequirementService {
         requirement.setDescription(request.getDescription());
         requirement.setStatus("Đang xử lý");
         requirementRepository.save(requirement);
-        return new ResponseEntity<>(requirement,HttpStatus.OK);
+        return new ResponseEntity<>(requirement,HttpStatus.CREATED);
     }
     public ResponseEntity<Requirement>forwardRequest(Long requirementId, Long nextPoliticianId){
         Optional<Requirement>requirementData=requirementRepository.findById(requirementId);

@@ -68,6 +68,7 @@ public class AuthenticationService {
                 .married(request.isMarried())
                 .imgUrl(request.getImgUrl())
                 .criminalRecord(request.getCriminalRecord())
+                .militaryService(request.isMilitaryService())
                 .build();
         citizenRepository.save(citizen);
         familyRepository.save(family);

@@ -34,4 +34,5 @@ public class RegisterRequest {
     private String phone;
     private boolean married;
     private String imgUrl;
+    private boolean militaryService;
 }

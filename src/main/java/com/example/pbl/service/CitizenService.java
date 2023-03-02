@@ -99,9 +99,11 @@ public class CitizenService {
                     .married(request.isMarried())
                     .imgUrl(request.getImgUrl())
                     .criminalRecord(request.getCriminalRecord())
+                    .militaryService(request.isMilitaryService())
                     .build();
             return new ResponseEntity<>(citizenRepository.save(citizen),HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
+
 }

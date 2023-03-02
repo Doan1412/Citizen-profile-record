@@ -20,16 +20,23 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@TableGenerator(name="citizen", initialValue=1, allocationSize=1)
+@TableGenerator(name="citizen")
 public class Citizen implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "Sequence",
+            sequenceName = "Sequence",
+            allocationSize = 1,
+            initialValue=10000000
+    )
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="Sequence")
     @Column(name="citizen_id")
     private Long citizenId;
     @NotNull
     private String name;
     @Column(nullable = false)
     @NotNull
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -68,8 +75,9 @@ public class Citizen implements UserDetails {
     @JoinColumn(name = "maritalStatus")
     private boolean married;
     private String imgUrl;
+    private boolean militaryService;
 
-    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, String criminalRecord, String email, String phone,boolean isMarried,String imgUrl) {
+    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, String criminalRecord, String email, String phone,boolean isMarried,String imgUrl,boolean militaryService) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -87,6 +95,7 @@ public class Citizen implements UserDetails {
         this.phone = phone;
         this.married=isMarried;
         this.imgUrl=imgUrl;
+        this.militaryService=militaryService;
     }
 
     public Long getId() {
@@ -237,10 +246,26 @@ public class Citizen implements UserDetails {
         this.imgUrl = imgUrl;
     }
 
+    public Long getCitizenId() {
+        return citizenId;
+    }
+
+    public void setCitizenId(Long citizenId) {
+        this.citizenId = citizenId;
+    }
+
+    public boolean isMilitaryService() {
+        return militaryService;
+    }
+
+    public void setMilitaryService(boolean militaryService) {
+        this.militaryService = militaryService;
+    }
+
     @Override
     public String toString() {
         return "Citizen{" +
-                "citizen_id=" + citizenId +
+                "citizenId=" + citizenId +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
@@ -253,11 +278,12 @@ public class Citizen implements UserDetails {
                 ", address='" + address + '\'' +
                 ", location=" + location +
                 ", profession='" + profession + '\'' +
-                ", criminalRecord=" + criminalRecord +
+                ", criminalRecord='" + criminalRecord + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", married=" + married +
-                ", imgUrl=" + imgUrl +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", militaryService=" + militaryService +
                 '}';
     }
 

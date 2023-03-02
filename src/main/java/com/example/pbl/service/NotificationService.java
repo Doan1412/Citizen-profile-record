@@ -56,6 +56,6 @@ public class NotificationService {
             }
         }
         notification.setMessage(request.getDescription());
-        return new ResponseEntity<>(notificationRepository.save(notification),HttpStatus.OK);
+        return new ResponseEntity<>(notificationRepository.save(notification),HttpStatus.CREATED);
     }
 }

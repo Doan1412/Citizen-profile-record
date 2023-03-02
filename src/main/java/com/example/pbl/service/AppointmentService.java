@@ -2,6 +2,7 @@ package com.example.pbl.service;
 
 import com.example.pbl.DTO.AppointmentDto;
 import com.example.pbl.entity.Appointment;
+import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Politician;
 import com.example.pbl.repositories.AppointmentRepository;
 import com.example.pbl.repositories.CitizenRepository;
@@ -13,14 +14,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
     @Autowired
     private final AppointmentRepository appointmentRepository;
+    @Autowired
     private final CitizenRepository citizenRepository;
+    @Autowired
     private final PoliticianRepository politicianRepository;
-
+    @Autowired
     public AppointmentService(AppointmentRepository appointmentRepository,
                               CitizenRepository citizenRepository,
                               PoliticianRepository politicianRepository) {
@@ -40,19 +44,35 @@ public class AppointmentService {
         return false;
     }
     public ResponseEntity<Appointment> addAppointment(AppointmentDto appointmentDto){
+        Citizen citizen=new Citizen();
+        Optional<Citizen> citizenData= citizenRepository.findById(appointmentDto.getCitizen_id());
+        if(citizenData.isPresent()){
+            citizen=citizenData.get();
+        }
+        else {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        Politician politician=new Politician();
+        Optional<Politician> politicianData= politicianRepository.findById(appointmentDto.getPolitician_id());
+        if(politicianData.isPresent()){
+            politician=politicianData.get();
+        }
+        else {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
         var appointment=Appointment.builder()
-                .citizen(citizenRepository.findById(appointmentDto.getCitizen_id()).get())
-                .politician(politicianRepository.findById(appointmentDto.getPolitician_id()).get())
+                .citizen(citizen)
+                .politician(politician)
                 .appointmentDate(appointmentDto.getAppointmentDate())
                 .startTime(appointmentDto.getStartTime())
                 .endTime(appointmentDto.getEndTime())
+                .status("Đang xử lý")
                 .build();
-        //Appointment appointment=new Appointment(citizenRepository.findById(appointmentDto.getCitizen_id()).get(),politicianRepository.findById(appointmentDto.getPolitician_id()).get(),appointmentDto.getAppointmentDate(), appointmentDto.getStartTime(), appointmentDto.getEndTime());
         if(isOverlapping(appointment, appointmentDto.getPolitician_id())){
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         }
         appointmentRepository.save(appointment);
-        return new ResponseEntity<>(appointment, HttpStatus.OK);
+        return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
     public void deleteAppointment(Long id){
         appointmentRepository.deleteById(id);
@@ -80,5 +100,18 @@ public class AppointmentService {
         }
         appointmentRepository.save(appointment);
         return new ResponseEntity<>(appointment, HttpStatus.OK);
+    }
+    public List<Appointment>getPoliticianAppointmentByDateAndStatus(Long politician_id, Date date,String status){
+        return appointmentRepository.findByAppointmentDateAndStatusIgnoreCaseAndPoliticianPoliticianId(date,status,politician_id);
+    }
+
+    public ResponseEntity<Appointment> updateAppointmentStatus(long id,String status) {
+        Optional<Appointment> appointmentData=appointmentRepository.findById(id);
+        if(appointmentData.isPresent()){
+            appointmentData.get().setStatus(status);
+            appointmentRepository.save(appointmentData.get());
+            return new ResponseEntity<>(appointmentData.get(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 }

@@ -30,4 +30,5 @@ public class UpdateCitizen {
     private String town;
     private String district;
     private String city;
+    private boolean militaryService;
 }

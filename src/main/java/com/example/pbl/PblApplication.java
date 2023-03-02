@@ -9,7 +9,6 @@ import java.util.Date;
 public class PblApplication {
 
     public static void main(String[] args) {
-        System.out.println(new Date(System.currentTimeMillis()));
         SpringApplication.run(PblApplication.class, args);
     }
 

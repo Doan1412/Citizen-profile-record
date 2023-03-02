@@ -6,6 +6,7 @@ import com.example.pbl.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
     @GetMapping("/citizenId={id}")
+    @PreAuthorize("hasAuthority('CITIZEN')")
     public ResponseEntity<List<Notification>> getNotificationByCitizenId(@PathVariable long id){
         try {
             return new ResponseEntity<>(notificationService.getByCitizenId(id), HttpStatus.OK);
@@ -29,6 +31,7 @@ public class NotificationController {
         }
     }
     @PostMapping("/newNotification")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<Notification>addNotification(@RequestBody RequirementRequest request){
         return notificationService.addNotification(request);
     }

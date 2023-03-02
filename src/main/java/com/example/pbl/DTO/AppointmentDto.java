@@ -18,4 +18,5 @@ public class AppointmentDto {
     private Date appointmentDate;
     private String startTime;
     private String endTime;
+    private String status;
 }

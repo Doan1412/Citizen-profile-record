@@ -29,14 +29,14 @@ public class RequirementController {
     public ResponseEntity<Requirement>forwardRequest(@RequestParam(value="idReq", required=true) String requirementId, @RequestParam(value="idPoli", required=true) String nextPliticianId){
         return requirementService.forwardRequest(Long.valueOf(requirementId),Long.valueOf(nextPliticianId));
     }
-//    @GetMapping("/politicianId={id}")
-//    @PreAuthorize("hasAuthority('POLITICIAN')")
-//    public ResponseEntity<List<Requirement>>getRequirementByPoliId(@PathVariable long id){
-//        try {
-//            List<Citizen> citizenList=citizenService.getQuarterCitizen(requestString.getString());
-//            return new ResponseEntity<>(citizenList, HttpStatus.OK);
-//        } catch (Exception e){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping("/politicianId={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<List<Requirement>>getRequirementByPoliId(@PathVariable long id){
+        try {
+            List<Requirement> requirementList=requirementService.getByPoliticianId(id);
+            return new ResponseEntity<>(requirementList, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class PoliticianController {
         this.politicianRepository = politicianRepository;
     }
     @GetMapping("/listPolitician/country")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Politician>> getAllPolitician(){
         try {
@@ -36,6 +38,7 @@ public class PoliticianController {
         }
     }
     @GetMapping("/listPolitician")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAnyAuthority('CITIZEN')")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestBody PoliList poliList){
         try {
@@ -46,11 +49,24 @@ public class PoliticianController {
         }
     }
     @GetMapping("/id={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAnyAuthority('CITIZEN')")
     public ResponseEntity<Politician>getPoliticianById(@PathVariable long id){
         return politicianService.getPoliticianById(id);
     }
     @GetMapping("/citizenId={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAnyAuthority('CITIZEN')")
     public ResponseEntity<Politician>getPoliticianByCitizenId(@PathVariable long id){
         return politicianService.getPoliticianByCitizenId(id);
+    }
+    @PutMapping("/update/politicianId={id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Politician>updatePolitician(@PathVariable long id,@RequestBody PoliList poliList){
+        return politicianService.updatePolitician(id,poliList);
+    }
+    @DeleteMapping("/delete/politicianId={id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Politician>deletePolitician(@PathVariable long id){
+        politicianService.deletePolitician(id);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

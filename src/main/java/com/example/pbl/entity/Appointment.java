@@ -1,5 +1,6 @@
 package com.example.pbl.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class Appointment {
     @JoinColumn(name = "politician_id")
     private Politician politician;
     @Column(name = "appointment_date")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
     private Date appointmentDate;
 
     @Column(name = "start_time")
@@ -36,6 +38,7 @@ public class Appointment {
     @Column(name = "end_time")
     private String endTime;
     // getters and setters
+    private String status;
 
     public Long getId() {
         return id;
@@ -85,6 +88,14 @@ public class Appointment {
         this.politician = politician;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String isAccept) {
+        this.status = isAccept;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -94,6 +105,7 @@ public class Appointment {
                 ", appointmentDate=" + appointmentDate +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
