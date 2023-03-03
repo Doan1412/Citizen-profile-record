@@ -67,6 +67,7 @@ public class AppointmentService {
                 .startTime(appointmentDto.getStartTime())
                 .endTime(appointmentDto.getEndTime())
                 .status("Đang xử lý")
+                .description(appointmentDto.getDescription())
                 .build();
         if(isOverlapping(appointment, appointmentDto.getPolitician_id())){
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
@@ -94,6 +95,7 @@ public class AppointmentService {
                 .appointmentDate(appointmentDto.getAppointmentDate())
                 .startTime(appointmentDto.getStartTime())
                 .endTime(appointmentDto.getEndTime())
+                .description(appointmentDto.getDescription())
                 .build();
         if(isOverlapping(appointment, appointmentDto.getPolitician_id())){
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);

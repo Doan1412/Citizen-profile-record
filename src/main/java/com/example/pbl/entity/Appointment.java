@@ -2,11 +2,13 @@ package com.example.pbl.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 @Builder
@@ -33,12 +35,17 @@ public class Appointment {
     private Date appointmentDate;
 
     @Column(name = "start_time")
+    @NotNull
     private String startTime;
 
     @Column(name = "end_time")
+    @NotNull
     private String endTime;
-    // getters and setters
+    @NotNull
     private String status;
+    @Column(nullable = false)
+    @NotNull
+    private String description;
 
     public Long getId() {
         return id;
@@ -96,6 +103,14 @@ public class Appointment {
         this.status = isAccept;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -105,7 +120,8 @@ public class Appointment {
                 ", appointmentDate=" + appointmentDate +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", status=" + status +
+                ", status='" + status + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
