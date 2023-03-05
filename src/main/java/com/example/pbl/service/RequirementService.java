@@ -84,4 +84,13 @@ public class RequirementService {
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
+    public ResponseEntity<Requirement> updateStatus(long id, String status) {
+        Optional<Requirement> requirementData=requirementRepository.findById(id);
+        if(requirementData.isPresent()){
+            requirementData.get().setStatus(status);
+            requirementRepository.save(requirementData.get());
+            return new ResponseEntity<>(requirementData.get(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
 }

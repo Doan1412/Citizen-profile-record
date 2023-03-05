@@ -34,7 +34,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
     @PostMapping("/registerPolitician")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AuthenticationResponse>registerPolitician(
             @RequestBody PoliticianRegisterRequest request
     ) {

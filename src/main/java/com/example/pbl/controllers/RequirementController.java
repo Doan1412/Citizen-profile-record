@@ -1,6 +1,8 @@
 package com.example.pbl.controllers;
 
+import com.example.pbl.DTO.RequestString;
 import com.example.pbl.DTO.RequirementRequest;
+import com.example.pbl.entity.Appointment;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Requirement;
 import com.example.pbl.service.RequirementService;
@@ -38,5 +40,10 @@ public class RequirementController {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @PatchMapping("/updateStatus/id={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<Requirement>updateStatus(@PathVariable long id, @RequestBody RequestString requestString){
+        return requirementService.updateStatus(id,requestString.getString());
     }
 }
