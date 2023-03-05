@@ -3,6 +3,7 @@ package com.example.pbl.service;
 import com.example.pbl.DTO.PoliList;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Politician;
+import com.example.pbl.entity.Role;
 import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.repositories.PoliticianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +65,7 @@ public class PoliticianService {
 
     public void deletePolitician(long id) {
         Politician politician=politicianRepository.findById(id).orElseThrow();
+        politician.getCitizen().getRole().remove(Role.POLITICIAN);
         politicianRepository.deleteById(id);
     }
 }
