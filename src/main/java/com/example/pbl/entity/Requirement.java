@@ -1,6 +1,7 @@
 package com.example.pbl.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,7 @@ public class Requirement {
     private Collection<Politician> recipient;
     @Column(nullable = false)
     private String description;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
     private Date date;
     private String status;
     public Requirement(){
