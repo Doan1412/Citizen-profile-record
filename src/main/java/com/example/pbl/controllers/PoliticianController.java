@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 @RestController
 @RequestMapping(path="api/politician")
@@ -37,12 +39,14 @@ public class PoliticianController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/listPolitician")
+    @GetMapping("/listPolitician/")
     @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAnyAuthority('CITIZEN')")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestBody PoliList poliList){
+    public ResponseEntity<List<Politician>> getPoliticianByLevelManagerAndAndAreaManage(@RequestParam String levelManageEncode,@RequestParam String areaManageEncode){
         try {
-            List<Politician> PoliticianList=politicianService.getPoliticianByLevelManagerAndAreaManage(poliList);
+            String levelManage= URLDecoder.decode(levelManageEncode, StandardCharsets.UTF_8);
+            String areaManage=URLDecoder.decode(areaManageEncode, StandardCharsets.UTF_8);
+            List<Politician> PoliticianList=politicianService.getPoliticianByLevelManagerAndAreaManage(levelManage, areaManage);
             return new ResponseEntity<>(PoliticianList, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

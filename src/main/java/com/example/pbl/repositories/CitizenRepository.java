@@ -10,10 +10,10 @@ import java.util.Optional;
 
 @Repository
 public interface CitizenRepository extends JpaRepository<Citizen,Long> {
-    List<Citizen>findByLocationCity(String city);
-    List<Citizen>findByLocationQuarter(String quarter);
-    List<Citizen>findByLocationTown(String town);
-    List<Citizen>findByLocationDistrict(String district);
+    List<Citizen>findByLocationCityContainingIgnoreCase (String city);
+    List<Citizen>findByLocationQuarterContainingIgnoreCase(String quarter);
+    List<Citizen>findByLocationTownContainingIgnoreCase(String town);
+    List<Citizen>findByLocationDistrictContainingIgnoreCase(String district);
     Optional<Citizen> findById(Long id);
     List<Citizen>findByName(String name);
     List<Citizen>findByMarried(boolean isMarried);

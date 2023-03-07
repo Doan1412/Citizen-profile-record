@@ -85,6 +85,7 @@ public class AppointmentService {
         return appointmentRepository.findByPoliticianPoliticianId(politician_id);
     }
     public List<Appointment>getPoliticianAppointmentByDate(Long politician_id, Date date){
+        System.out.println(politician_id+" "+date);
         return appointmentRepository.findByAppointmentDateAndPoliticianPoliticianId(date,politician_id);
     }
     public ResponseEntity<Appointment> updateAppointment(Long id,AppointmentDto appointmentDto){

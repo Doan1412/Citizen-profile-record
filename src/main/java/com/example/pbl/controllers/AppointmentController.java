@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,29 +65,31 @@ public class AppointmentController {
     public ResponseEntity<Appointment>updateAppointment(@PathVariable("id") long id,@RequestBody AppointmentDto appointmentDto){
         return appointmentService.updateAppointment(id,appointmentDto);
     }
-    @GetMapping("/politicianDateAppointment")
+    @GetMapping("/listAppointment/")
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Appointment>>getPoliticianAppointmentByDate(
-            @RequestBody AppointmentDto appointmentDto
-            ){
-        try{
-            List<Appointment>appointmentList= appointmentService.getPoliticianAppointmentByDate(appointmentDto.getPolitician_id(),appointmentDto.getAppointmentDate());
-            return new ResponseEntity<>(appointmentList, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            @RequestParam long poliId,@RequestParam String dateString
+            )throws ParseException {
+        {
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = format.parse(dateString);
+                List<Appointment> appointmentList = appointmentService.getPoliticianAppointmentByDate(poliId, date);
+                return new ResponseEntity<>(appointmentList, HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
     }
     @GetMapping("/politicianDateAppointmentStatus")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Appointment>>getPoliticianAppointmentByDateAndStatus(
+    public ResponseEntity<List<Appointment>> getPoliticianAppointmentByDateAndStatus (
             @RequestBody AppointmentDto appointmentDto
     ){
-        try{
-            List<Appointment>appointmentList= appointmentService.getPoliticianAppointmentByDateAndStatus(appointmentDto.getPolitician_id(),appointmentDto.getAppointmentDate(),appointmentDto.getStatus());
-            return new ResponseEntity<>(appointmentList, HttpStatus.OK);
-        }
-        catch (Exception e){
+        try {
+            List<Appointment> appointmentList = appointmentService.getPoliticianAppointmentByDateAndStatus(appointmentDto.getPolitician_id(), appointmentDto.getAppointmentDate(), appointmentDto.getStatus());
+                return new ResponseEntity<>(appointmentList, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

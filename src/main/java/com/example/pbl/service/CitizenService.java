@@ -45,16 +45,16 @@ public class CitizenService {
         }
     }
     public List<Citizen> getCityCitizen(String name){
-        return citizenRepository.findByLocationCity(name);
+        return citizenRepository.findByLocationCityContainingIgnoreCase(name);
     }
     public List<Citizen> getTownCitizen(String name){
-        return citizenRepository.findByLocationTown(name);
+        return citizenRepository.findByLocationTownContainingIgnoreCase(name);
     }
     public List<Citizen> getQuarterCitizen(String name){
-        return citizenRepository.findByLocationQuarter(name);
+        return citizenRepository.findByLocationQuarterContainingIgnoreCase(name);
     }
     public List<Citizen> getDistrictCitizen(String name){
-        return citizenRepository.findByLocationDistrict(name);
+        return citizenRepository.findByLocationDistrictContainingIgnoreCase(name);
     }
 
     public Citizen addCitizen(Citizen citizen){

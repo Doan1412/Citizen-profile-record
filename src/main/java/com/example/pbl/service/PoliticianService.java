@@ -36,11 +36,9 @@ public class PoliticianService {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-    public List<Politician> getPoliticianByLevelManagerAndAreaManage(PoliList poliList){
-        String levelManage=poliList.getLevelManager();
-        String areaManage= poliList.getAreaManage();
+    public List<Politician> getPoliticianByLevelManagerAndAreaManage(String levelManage,String areaManage){
         System.out.println(levelManage+" "+areaManage);
-        return politicianRepository.findByLevelManagerAndAreaManageContaining(levelManage,areaManage);
+        return politicianRepository.findByLevelManagerContainingIgnoreCaseAndAreaManageContainingIgnoreCase(levelManage,areaManage);
     }
     public ResponseEntity<Politician> getPoliticianByCitizenId(Long id){
         Optional<Politician> politicianData= politicianRepository.findByCitizenCitizenId(id);
