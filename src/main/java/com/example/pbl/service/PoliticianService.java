@@ -52,8 +52,10 @@ public class PoliticianService {
         }
     }
     public ResponseEntity<Politician>updatePolitician(long id,PoliList poliList){
-        Optional<Politician> politicianData= politicianRepository.findByCitizenCitizenId(id);
+        Optional<Politician> politicianData= politicianRepository.findByPoliticianId(id);
+        System.out.println(poliList);
         if(politicianData.isPresent()){
+            System.out.println("politicianData.get()");
             politicianData.get().setLevelManager(poliList.getLevelManager());
             politicianData.get().setAreaManage(poliList.getAreaManage());
             return new ResponseEntity<>(politicianRepository.save(politicianData.get()), HttpStatus.OK);
@@ -64,8 +66,10 @@ public class PoliticianService {
     }
 
     public void deletePolitician(long id) {
-        Politician politician=politicianRepository.findById(id).orElseThrow();
-        politician.getCitizen().getRole().remove(Role.POLITICIAN);
-        politicianRepository.deleteById(id);
+        Optional<Politician> politicianData= politicianRepository.findByPoliticianId(id);
+        if(politicianData.isPresent()){
+            politicianData.get().getCitizen().getRole().remove(Role.POLITICIAN);
+            politicianRepository.deleteById(id);
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PoliticianRepository extends JpaRepository<Politician,Long> {
+    Optional<Politician>findByPoliticianId(long id);
     Optional<Politician>findByCitizenCitizenId(Long citizenId);
     List<Politician>findByCitizenNameContaining(String name);
     List<Politician>findByLevelManagerAndAreaManageContaining(String levelManage,String areaManage);

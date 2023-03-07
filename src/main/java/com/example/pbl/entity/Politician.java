@@ -17,7 +17,7 @@ public class Politician {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long politicianId;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToOne
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
     private String position;//chuc danh

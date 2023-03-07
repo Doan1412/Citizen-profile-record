@@ -92,7 +92,7 @@ public class CitizenController {
         return citizenService.updateCitizen(request);
     }
     @DeleteMapping("/delete/id={id}")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<Void> deleteCitizen(@PathVariable("id") long id){
         citizenService.deleteCitizen(id);
         return new ResponseEntity<>(null,HttpStatus.OK);
