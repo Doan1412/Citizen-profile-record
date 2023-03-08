@@ -62,10 +62,16 @@ public class PoliticianController {
     public ResponseEntity<Politician>getPoliticianByCitizenId(@PathVariable long id){
         return politicianService.getPoliticianByCitizenId(id);
     }
-    @PutMapping("/update/politicianId={id}")
+    @PutMapping("/update/politicianId={id}/")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Politician>updatePolitician(@PathVariable long id,@RequestBody PoliList poliList){
-        return politicianService.updatePolitician(id,poliList);
+    public ResponseEntity<Politician>updatePolitician(@PathVariable long id,@RequestParam String levelManageEncode,@RequestParam String areaManageEncode){
+        try {
+            String levelManage= URLDecoder.decode(levelManageEncode, StandardCharsets.UTF_8);
+            String areaManage=URLDecoder.decode(areaManageEncode, StandardCharsets.UTF_8);
+            return politicianService.updatePolitician(id,levelManage,areaManage);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     @DeleteMapping("/delete/politicianId={id}")
     @PreAuthorize("hasAuthority('ADMIN')")

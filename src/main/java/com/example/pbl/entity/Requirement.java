@@ -30,7 +30,8 @@ public class Requirement {
     private Collection<Politician> recipient;
     @Column(nullable = false)
     private String description;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date date;
     private String status;
     public Requirement(){

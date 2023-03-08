@@ -14,7 +14,7 @@ import java.util.Date;
 public class AppointmentDto {
     private Long citizen_id;
     private Long politician_id;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date appointmentDate;
     private String startTime;
     private String endTime;

@@ -21,9 +21,6 @@ public class Notification {
     @JoinColumn(name = "sender_politician_id")
     private Politician politician;
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonBackReference
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude
     @JoinColumn(name = "receivers_citizen_id")
     private List<Citizen> citizens;
     public String getMessage() {

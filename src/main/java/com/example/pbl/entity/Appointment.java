@@ -31,7 +31,8 @@ public class Appointment {
     @JoinColumn(name = "politician_id")
     private Politician politician;
     @Column(name = "appointment_date")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Indochina")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date appointmentDate;
 
     @Column(name = "start_time")

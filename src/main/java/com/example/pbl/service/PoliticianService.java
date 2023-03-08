@@ -49,13 +49,12 @@ public class PoliticianService {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-    public ResponseEntity<Politician>updatePolitician(long id,PoliList poliList){
+    public ResponseEntity<Politician>updatePolitician(long id,String levelManage,String areaManage){
         Optional<Politician> politicianData= politicianRepository.findByPoliticianId(id);
-        System.out.println(poliList);
         if(politicianData.isPresent()){
             System.out.println("politicianData.get()");
-            politicianData.get().setLevelManager(poliList.getLevelManager());
-            politicianData.get().setAreaManage(poliList.getAreaManage());
+            politicianData.get().setLevelManager(levelManage);
+            politicianData.get().setAreaManage(areaManage);
             return new ResponseEntity<>(politicianRepository.save(politicianData.get()), HttpStatus.OK);
         }
         else {
