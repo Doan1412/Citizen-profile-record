@@ -58,4 +58,7 @@ public class NotificationService {
         notification.setMessage(request.getDescription());
         return new ResponseEntity<>(notificationRepository.save(notification),HttpStatus.CREATED);
     }
+    public List<Notification>getByPoliticianId(Long id){
+        return notificationRepository.findByPoliticianPoliticianId(id);
+    }
 }

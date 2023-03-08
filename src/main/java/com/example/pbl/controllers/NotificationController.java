@@ -35,4 +35,14 @@ public class NotificationController {
     public ResponseEntity<Notification>addNotification(@RequestBody RequirementRequest request){
         return notificationService.addNotification(request);
     }
+    @GetMapping("/politicianId={id}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<List<Notification>>getNotificationByPoliticianId(@PathVariable long id){
+        try {
+            return  new ResponseEntity<>(notificationService.getByPoliticianId(id),HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
 }
