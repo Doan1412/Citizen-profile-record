@@ -103,4 +103,7 @@ public class CitizenController {
         citizenService.deleteCitizen(id);
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
+//    @GetMapping("/report/age={id}")
+//    @PreAuthorize("hasAuthority('POLITICIAN)")
+//    public ResponseEntity<> AgeReport()
 }
