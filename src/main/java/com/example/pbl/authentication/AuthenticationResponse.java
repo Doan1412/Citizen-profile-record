@@ -19,9 +19,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
-    private String token;
-//    private String refreshToken;
-//    private Long expiryDuration;
+    private String accessToken;
+    private String refreshToken;
+    private Long expiryDuration;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> role=new HashSet<>();

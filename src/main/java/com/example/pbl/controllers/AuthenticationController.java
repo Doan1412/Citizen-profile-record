@@ -2,10 +2,13 @@ package com.example.pbl.controllers;
 
 import com.example.pbl.DTO.ChangePassword;
 import com.example.pbl.DTO.PoliticianRegisterRequest;
+import com.example.pbl.DTO.TokenRefreshRequest;
 import com.example.pbl.authentication.AuthenticationRequest;
 import com.example.pbl.authentication.AuthenticationResponse;
 import com.example.pbl.authentication.AuthenticationService;
 import com.example.pbl.DTO.RegisterRequest;
+import com.example.pbl.entity.Citizen;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     //@PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<Citizen> register(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.registerCitizen(request));
@@ -50,5 +53,14 @@ public class AuthenticationController {
             @RequestBody ChangePassword request
     ){
         return ResponseEntity.ok(service.changePassword(request));
+    }
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        System.out.println(request);
+        return service.refreshtoken(request);
+    }
+    @GetMapping("/signout")
+    public ResponseEntity<?> logoutUser() {
+        return service.logoutUser();
     }
 }
