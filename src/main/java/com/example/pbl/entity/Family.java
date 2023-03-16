@@ -1,12 +1,12 @@
 package com.example.pbl.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Builder
 @Entity
@@ -14,14 +14,12 @@ import java.util.List;
 public class Family {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long family_id;
-    @OneToMany(cascade = CascadeType.ALL)
+    private Long id;
+    @OneToMany(mappedBy = "family",cascade = CascadeType.ALL)
     @JsonBackReference
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude
-    private Collection<Citizen> familyMemberList;
+    private Set<Citizen> familyMemberList;
 
-    public Family(Collection<Citizen> familyMemberList) {
+    public Family(Set<Citizen> familyMemberList) {
         this.familyMemberList = familyMemberList;
     }
 
@@ -29,20 +27,19 @@ public class Family {
 
     }
 
-    public Family(Long id, Collection<Citizen> familyMemberList) {
-        this.family_id = id;
+    public Family(Long id, Set<Citizen> familyMemberList) {
+        this.id = id;
         this.familyMemberList = familyMemberList;
     }
 
 
     public Long getId_Family() {
-        return family_id;
+        return id;
     }
 
     public void setId_Family(Long id_Family) {
-        this.family_id = id_Family;
+        this.id = id_Family;
     }
-
     public Collection<Citizen> getFamilyMemberList() {
         return familyMemberList;
     }
@@ -51,20 +48,20 @@ public class Family {
             this.familyMemberList.add(citizen);
         }
         else {
-            List<Citizen> list=new ArrayList<>();
+            Set<Citizen> list=new HashSet<>();
             list.add(citizen);
             this.familyMemberList=list;
         }
     }
 
-    public void setFamilyMemberList(Collection<Citizen> familyMemberList) {
+    public void setFamilyMemberList(Set<Citizen> familyMemberList) {
         this.familyMemberList = familyMemberList;
     }
 
     @Override
     public String toString() {
         return "Family{" +
-                "idFamily=" + family_id +
+                "idFamily=" + id +
                 ", familyMemberList=" + familyMemberList +
                 '}';
     }

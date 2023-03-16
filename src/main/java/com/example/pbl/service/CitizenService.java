@@ -62,7 +62,7 @@ public class CitizenService {
     }
     public void deleteCitizen(Long id){
         Citizen citizen = citizenRepository.findById(id).orElseThrow();
-        Family family = citizen.getFamily();
+        Family family = familyRepository.findById(citizen.getFamily()).get();
         if (citizen.getFamily() != null) {
             family.getFamilyMemberList().remove(citizen);
             familyRepository.save(family);
@@ -105,5 +105,7 @@ public class CitizenService {
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
-
+    public ResponseEntity<List<Citizen>> getFamily(long id){
+        return new ResponseEntity<>(citizenRepository.findByFamilyId(id),HttpStatus.OK);
+    }
 }

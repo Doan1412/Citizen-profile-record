@@ -15,6 +15,7 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen>findByLocationTownContainingIgnoreCase(String town);
     List<Citizen>findByLocationDistrictContainingIgnoreCase(String district);
     Optional<Citizen> findById(Long id);
+    List<Citizen>findByFamilyId (Long id);
     List<Citizen>findByName(String name);
     List<Citizen>findByMarried(boolean isMarried);
     long countByMilitaryServiceFalseAndBirthBetween(Date date1,Date date2);

@@ -63,27 +63,33 @@ public class AuthenticationService {
         }
         Set<Role> roleSet=new HashSet<>();
         roleSet.add(Role.CITIZEN);
-        var citizen= Citizen.builder()
-                .name(request.getName())
-                .password(PasswordUtil.encode(request.getPassword()))
-                .role(roleSet)
-                .birth(request.getBirth())
-                .family(family)
-                .gender(request.isGender())
-                .ethnic(request.getEthnic())
-                .religion(request.getReligion())
-                .nationality(request.getNationality())
-                .address(request.getAddress())
-                .location(location)
-                .profession(request.getProfession())
-                .phone(request.getPhone())
-                .email(request.getEmail())
-                .married(request.isMarried())
-                .imgUrl(request.getImgUrl())
-                .criminalRecord(request.getCriminalRecord())
-                .militaryService(request.isMilitaryService())
-                .build();
-        citizenRepository.save(citizen);
+        System.out.println(family);
+        Citizen citizen=new Citizen();
+        citizen.setName(request.getName());
+//        var citizen= Citizen.builder()
+//                .name(request.getName())
+                citizen.setPassword(PasswordUtil.encode(request.getPassword()));
+                citizen.setRole(roleSet);
+                citizen.setBirth(request.getBirth());
+                citizen.setFamily(family);
+                citizen.setGender(request.isGender());
+                citizen.setEthnic(request.getEthnic());
+                citizen.setReligion(request.getReligion());
+                citizen.setNationality(request.getNationality());
+                citizen.setAddress(request.getAddress());
+                citizen.setLocation(location);
+                citizen.setProfession(request.getProfession());
+                citizen.setPhone(request.getPhone());
+                citizen.setEmail(request.getEmail());
+                citizen.setMarried(request.isMarried());
+                citizen.setImgUrl(request.getImgUrl());
+                citizen.setCriminalRecord(request.getCriminalRecord());
+                citizen.setMilitaryService(request.isMilitaryService());
+                citizen.setHomeOwnerRelationship(request.getRelationship());
+//                .build();
+        Citizen p= citizenRepository.save(citizen);
+        family.addFamilyMenber(p);
+        //System.out.println(family.getFamilyMemberList());
         familyRepository.save(family);
         return citizen;
     }

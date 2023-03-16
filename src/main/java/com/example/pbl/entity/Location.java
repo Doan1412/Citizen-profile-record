@@ -19,12 +19,12 @@ public class Location {
     private String town; //Xa
     private String district; //Huyen
     private String city; //Tinh
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
-    @JsonBackReference
-    private Collection<Citizen> persons;
+//    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+//    // MapopedBy trỏ tới tên biến Address ở trong Person.
+//    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+//    @ToString.Exclude // Khoonhg sử dụng trong toString()
+//    @JsonBackReference
+//    private Collection<Citizen> persons;
     public Location(){}
 
     public Location(String quarter, String town, String district, String city, Collection<Citizen> persons) {
@@ -32,7 +32,7 @@ public class Location {
         this.town = town;
         this.district = district;
         this.city = city;
-        this.persons = persons;
+        //this.persons = persons;
     }
 
     public Location(String quarter, String town, String district, String city) {
@@ -82,13 +82,13 @@ public class Location {
         this.location_id = location_id;
     }
 
-    public Collection<Citizen> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(Collection<Citizen> persons) {
-        this.persons = persons;
-    }
+//    public Collection<Citizen> getPersons() {
+//        return persons;
+//    }
+//
+//    public void setPersons(Collection<Citizen> persons) {
+//        this.persons = persons;
+//    }
 
     @Override
     public String toString() {
@@ -98,7 +98,7 @@ public class Location {
                 ", town='" + town + '\'' +
                 ", district='" + district + '\'' +
                 ", city='" + city + '\'' +
-                ", persons=" + persons +
+//                ", persons=" + persons +
                 '}';
     }
 }

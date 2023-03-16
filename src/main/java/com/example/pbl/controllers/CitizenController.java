@@ -4,6 +4,7 @@ import com.example.pbl.DTO.RegisterRequest;
 import com.example.pbl.DTO.RequestString;
 import com.example.pbl.DTO.UpdateCitizen;
 import com.example.pbl.entity.Citizen;
+import com.example.pbl.entity.Family;
 import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.service.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,11 @@ public class CitizenController {
     public ResponseEntity<Void> deleteCitizen(@PathVariable("id") long id){
         citizenService.deleteCitizen(id);
         return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+    @GetMapping("family/id={id}")
+    @PreAuthorize("hasAuthority('CITIZEN')")
+    public ResponseEntity<List<Citizen>> getFamily(@PathVariable("id") long id){
+        return citizenService.getFamily(id);
     }
 //    @GetMapping("/report/age={id}")
 //    @PreAuthorize("hasAuthority('POLITICIAN)")
