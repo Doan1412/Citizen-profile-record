@@ -1,5 +1,6 @@
 package com.example.pbl.configuration;
 
+import com.example.pbl.repositories.TokenRepository;
 import com.example.pbl.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +24,7 @@ public class JwtAthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-
+    private final TokenRepository tokenRepository;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -41,7 +42,10 @@ public class JwtAthFilter extends OncePerRequestFilter {
         citizen_id = jwtService.extractCitizen_id(jwt);
         if (citizen_id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = (this.userDetailsService).loadUserByUsername(citizen_id);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            var isTokenValid = tokenRepository.findByToken(jwt)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

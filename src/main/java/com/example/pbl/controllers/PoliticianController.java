@@ -64,11 +64,12 @@ public class PoliticianController {
     }
     @PutMapping("/update/politicianId={id}/")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Politician>updatePolitician(@PathVariable long id,@RequestParam String levelManageEncode,@RequestParam String areaManageEncode){
+    public ResponseEntity<Politician>updatePolitician(@PathVariable long id,@RequestParam String levelManageEncode,@RequestParam String areaManageEncode,@RequestParam String positionEncode){
         try {
             String levelManage= URLDecoder.decode(levelManageEncode, StandardCharsets.UTF_8);
             String areaManage=URLDecoder.decode(areaManageEncode, StandardCharsets.UTF_8);
-            return politicianService.updatePolitician(id,levelManage,areaManage);
+            String position=URLDecoder.decode(positionEncode, StandardCharsets.UTF_8);
+            return politicianService.updatePolitician(id,levelManage,areaManage,position);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

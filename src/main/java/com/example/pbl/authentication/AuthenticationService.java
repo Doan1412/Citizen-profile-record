@@ -7,6 +7,7 @@ import com.example.pbl.entity.*;
 import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.repositories.FamilyRepository;
 import com.example.pbl.repositories.PoliticianRepository;
+import com.example.pbl.repositories.TokenRepository;
 import com.example.pbl.service.JwtService;
 import com.example.pbl.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PoliticianRepository politicianRepository;
+    private final TokenRepository tokenRepository;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -35,6 +37,8 @@ public class AuthenticationService {
         var citizen = citizenRepository.findById(Long.valueOf(request.getCitizen_id()))
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(citizen);
+        revokeAllUserTokens(citizen);
+        saveUserToken(citizen, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(citizen.getRole())
@@ -70,9 +74,10 @@ public class AuthenticationService {
                 .criminalRecord(request.getCriminalRecord())
                 .militaryService(request.isMilitaryService())
                 .build();
-        citizenRepository.save(citizen);
+        Citizen p=citizenRepository.save(citizen);
         familyRepository.save(family);
         var jwtToken = jwtService.generateToken(citizen);
+        saveUserToken(p, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(citizen.getRole())
@@ -116,5 +121,26 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .role(citizen.getRole())
                 .build();
+    }
+    private void saveUserToken(Citizen citizen, String jwtToken) {
+        var token = Token.builder()
+                .citizen(citizen)
+                .token(jwtToken)
+                .tokenType("BEARER")
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
+    private void revokeAllUserTokens(Citizen citizen) {
+        var validUserTokens = tokenRepository.findByRevokedFalseAndExpiredFalseAndCitizenId (citizen.getId());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
     }
 }

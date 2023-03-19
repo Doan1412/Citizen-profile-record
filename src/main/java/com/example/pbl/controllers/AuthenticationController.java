@@ -6,6 +6,7 @@ import com.example.pbl.authentication.AuthenticationRequest;
 import com.example.pbl.authentication.AuthenticationResponse;
 import com.example.pbl.authentication.AuthenticationService;
 import com.example.pbl.DTO.RegisterRequest;
+import com.example.pbl.authentication.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-
+    private final LogoutService logoutService;
     @PostMapping("/register")
     //@PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<AuthenticationResponse> register(
@@ -51,4 +52,8 @@ public class AuthenticationController {
     ){
         return ResponseEntity.ok(service.changePassword(request));
     }
+//    @GetMapping("/logout")
+//    public ResponseEntity<Void>logout(){
+//        return ResponseEntity.ok(logoutService.logout());
+//    }
 }
