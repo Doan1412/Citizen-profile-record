@@ -84,10 +84,12 @@ public class AppointmentController {
     @GetMapping("/politicianDateAppointmentStatus")
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<List<Appointment>> getPoliticianAppointmentByDateAndStatus (
-            @RequestBody AppointmentDto appointmentDto
+            @RequestParam Long poliId, @RequestParam String dateString, @RequestParam String status
     ){
         try {
-            List<Appointment> appointmentList = appointmentService.getPoliticianAppointmentByDateAndStatus(appointmentDto.getPolitician_id(), appointmentDto.getAppointmentDate(), appointmentDto.getStatus());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(dateString);
+            List<Appointment> appointmentList = appointmentService.getPoliticianAppointmentByDateAndStatus(poliId, date, status);
                 return new ResponseEntity<>(appointmentList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
