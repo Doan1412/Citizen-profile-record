@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,4 +107,7 @@ public class CitizenService {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
+    public List<Citizen> getListMilitaryService() {
+        return citizenRepository.findByMilitaryServiceFalseAndBirthBetween(new Date(System.currentTimeMillis()-18*12*30*24*60*60*1000),new Date(System.currentTimeMillis()-26*12*30*24*60*60*1000));
+    }
 }

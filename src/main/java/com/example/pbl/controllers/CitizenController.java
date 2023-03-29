@@ -103,7 +103,14 @@ public class CitizenController {
         citizenService.deleteCitizen(id);
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
-//    @GetMapping("/report/age={id}")
+//    @GetMapping("/report/age={age}")
 //    @PreAuthorize("hasAuthority('POLITICIAN)")
-//    public ResponseEntity<> AgeReport()
+//    public ResponseEntity<> AgeReport(@PathVariable("id") long age,@RequestParam String area){
+//
+//    }
+    @GetMapping("/report/militaryService")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<List<Citizen>> getListMilitaryService(){
+        return new ResponseEntity<>(citizenService.getListMilitaryService(),HttpStatus.OK);
+    }
 }

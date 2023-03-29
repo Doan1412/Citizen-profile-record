@@ -18,6 +18,7 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen>findByName(String name);
     List<Citizen>findByMarried(boolean isMarried);
     long countByMilitaryServiceFalseAndBirthBetween(Date date1,Date date2);
+    List<Citizen>findByMilitaryServiceFalseAndBirthBetween(Date date1,Date date2);
     long countByMarriedTrue();
     long countByBirthBetween(Date date1,Date date2);
     long countByCriminalRecordIsNotNull();

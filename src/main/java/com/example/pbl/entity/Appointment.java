@@ -27,7 +27,7 @@ public class Appointment {
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "politician_id")
     private Politician politician;
     @Column(name = "appointment_date")
