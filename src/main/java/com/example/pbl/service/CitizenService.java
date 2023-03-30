@@ -91,7 +91,7 @@ public class CitizenService {
         opinionRepository.deleteByCitizenCitizenId(id);
         requirementRepository.deleteByAuthorCitizenId(id);
         tokenRepository.deleteByCitizenCitizenId(id);
-        politicianRepository.deleteByCitizenId(id);
+        politicianRepository.deleteByCitizenCitizenId(id);
         List<Notification> list=notificationRepository.findByCitizensCitizenId(id);
         for (Notification noti:list
              ) {
