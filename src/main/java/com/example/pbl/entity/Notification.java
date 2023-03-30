@@ -20,7 +20,7 @@ public class Notification {
     @OneToOne
     @JoinColumn(name = "sender_politician_id")
     private Politician politician;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "receivers_citizen_id")
     private List<Citizen> citizens;
     public String getMessage() {

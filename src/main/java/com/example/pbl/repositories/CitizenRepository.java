@@ -30,4 +30,5 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByCriminalRecordIsNotNullAndLocationTown(String town);
     long countByCriminalRecordIsNotNullAndLocationDistrict(String district);
     long countByCriminalRecordIsNotNullAndLocationQuarter(String quarter);
+    void deleteByCitizenId(Long id);
 }

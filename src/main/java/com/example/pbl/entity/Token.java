@@ -26,7 +26,7 @@ public class Token {
 
     public boolean expired;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "citizen_id")
     public Citizen citizen;
 }

@@ -17,4 +17,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
     List<Appointment> findByCitizenCitizenId(Long id);
     List<Appointment> findByAppointmentDateAndStatusIgnoreCaseAndPoliticianPoliticianId(Date date,String status,Long id);
     Optional<Appointment> findById(Long id);
+    void deleteByCitizenCitizenId(Long id);
 }

@@ -3,12 +3,10 @@ package com.example.pbl.service;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import com.example.pbl.DTO.RegisterRequest;
 import com.example.pbl.DTO.UpdateCitizen;
-import com.example.pbl.entity.Citizen;
-import com.example.pbl.entity.Family;
-import com.example.pbl.entity.Location;
-import com.example.pbl.repositories.CitizenRepository;
-import com.example.pbl.repositories.FamilyRepository;
+import com.example.pbl.entity.*;
+import com.example.pbl.repositories.*;
 import com.example.pbl.util.PasswordUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -25,10 +23,26 @@ public class CitizenService {
     private final CitizenRepository citizenRepository;
     @Autowired
     private final FamilyRepository familyRepository;
+    @Autowired
+    private final AppointmentRepository appointmentRepository;
+    @Autowired
+    private final OpinionRepository opinionRepository;
+    @Autowired
+    private final RequirementRepository requirementRepository;
+    @Autowired
+    private final NotificationRepository notificationRepository;
+    @Autowired
+    private final TokenRepository tokenRepository;
 
-    public CitizenService(CitizenRepository citizenRepository, FamilyRepository familyRepository) {
+    public CitizenService(CitizenRepository citizenRepository, FamilyRepository familyRepository, AppointmentRepository appointmentRepository, OpinionRepository opinionRepository, RequirementRepository requirementRepository,
+                          NotificationRepository notificationRepository,TokenRepository tokenRepository) {
         this.citizenRepository = citizenRepository;
         this.familyRepository = familyRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.opinionRepository = opinionRepository;
+        this.requirementRepository = requirementRepository;
+        this.notificationRepository = notificationRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     @Autowired
@@ -61,6 +75,7 @@ public class CitizenService {
     public Citizen addCitizen(Citizen citizen){
         return citizenRepository.save(citizen);
     }
+    @Transactional
     public void deleteCitizen(Long id){
         Citizen citizen = citizenRepository.findById(id).orElseThrow();
         Family family = citizen.getFamily();
@@ -69,7 +84,17 @@ public class CitizenService {
             familyRepository.save(family);
         }
         citizen.setFamily(null);
-        citizenRepository.deleteById(id);
+        appointmentRepository.deleteByCitizenCitizenId(id);
+        opinionRepository.deleteByCitizenCitizenId(id);
+        requirementRepository.deleteByAuthorCitizenId(id);
+        tokenRepository.deleteByCitizenCitizenId(id);
+        List<Notification> list=notificationRepository.findByCitizensCitizenId(id);
+        for (Notification noti:list
+             ) {
+            noti.getCitizens().remove(citizen);
+            notificationRepository.save(noti);
+        }
+        citizenRepository.deleteByCitizenId(id);
     }
     public ResponseEntity<Citizen> updateCitizen(UpdateCitizen request){
         Optional<Citizen> citizenData= citizenRepository.findById(request.getCitizenId());

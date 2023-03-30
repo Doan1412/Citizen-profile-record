@@ -117,4 +117,7 @@ public class AppointmentService {
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
+    public void deleteByCitizenId(Long id){
+        appointmentRepository.deleteByCitizenCitizenId(id);
+    }
 }

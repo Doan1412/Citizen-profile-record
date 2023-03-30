@@ -10,4 +10,5 @@ import java.util.List;
 public interface RequirementRepository extends JpaRepository<Requirement, Long> {
     List<Requirement>findByAuthorName(String name);
     List<Requirement>findByRecipientPoliticianId(Long id);
+    void deleteByAuthorCitizenId(Long id);
 }

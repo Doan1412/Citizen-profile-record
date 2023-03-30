@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.engine.internal.Cascade;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -23,11 +24,11 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "politician_id")
     private Politician politician;
     @Column(name = "appointment_date")
