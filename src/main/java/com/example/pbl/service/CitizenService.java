@@ -33,9 +33,11 @@ public class CitizenService {
     private final NotificationRepository notificationRepository;
     @Autowired
     private final TokenRepository tokenRepository;
+    @Autowired
+    private final PoliticianRepository politicianRepository;
 
     public CitizenService(CitizenRepository citizenRepository, FamilyRepository familyRepository, AppointmentRepository appointmentRepository, OpinionRepository opinionRepository, RequirementRepository requirementRepository,
-                          NotificationRepository notificationRepository,TokenRepository tokenRepository) {
+                          NotificationRepository notificationRepository,TokenRepository tokenRepository,PoliticianRepository politicianRepository) {
         this.citizenRepository = citizenRepository;
         this.familyRepository = familyRepository;
         this.appointmentRepository = appointmentRepository;
@@ -43,6 +45,7 @@ public class CitizenService {
         this.requirementRepository = requirementRepository;
         this.notificationRepository = notificationRepository;
         this.tokenRepository = tokenRepository;
+        this.politicianRepository = politicianRepository;
     }
 
     @Autowired
@@ -88,6 +91,7 @@ public class CitizenService {
         opinionRepository.deleteByCitizenCitizenId(id);
         requirementRepository.deleteByAuthorCitizenId(id);
         tokenRepository.deleteByCitizenCitizenId(id);
+        politicianRepository.deleteByCitizenId(id);
         List<Notification> list=notificationRepository.findByCitizensCitizenId(id);
         for (Notification noti:list
              ) {

@@ -12,6 +12,7 @@ public interface PoliticianRepository extends JpaRepository<Politician,Long> {
     Optional<Politician>findByPoliticianId(long id);
     Optional<Politician>findByCitizenCitizenId(Long citizenId);
     List<Politician>findByCitizenNameContainingIgnoreCase(String name);
+    void deleteByCitizenId(Long id);
     List<Politician>findByLevelManagerContainingIgnoreCaseAndAreaManageContainingIgnoreCase(String levelManage,String areaManage);
 //    @Query("SELECT t FROM TenBang t WHERE t.tenCot LIKE %?1% COLLATE utf8_general_ci")
 //    List<TenBang> findByTenCotWithoutDau(String tenCot);
