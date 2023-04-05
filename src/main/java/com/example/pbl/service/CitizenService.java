@@ -148,17 +148,17 @@ public class CitizenService {
         Date d2 = Date.from(d2Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
         System.out.println(d1);
         if(politician.getLevelManager().equalsIgnoreCase("city")){
-            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationCityContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceAndBirthBetweenAndLocationCityContainingIgnoreCase(false,d1,d2,politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationCityContainingIgnoreCase(d2,d1,politician.getAreaManage()),citizenRepository.findByMilitaryServiceAndBirthBetweenAndLocationCityContainingIgnoreCase(false,d2,d1,politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("district")){
             System.out.println(d1);
             return new ReportForm<>(citizenRepository.countByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(false,d2,d1,politician.getAreaManage()),citizenRepository.findByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(false,d2,d1,politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("town")){
-            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d1,d2,politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d2,d1,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d2,d1,politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
-            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d1,d2,politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d2,d1,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d2,d1,politician.getAreaManage()));
         }
         else {
             return new ReportForm<>(-1,null);
