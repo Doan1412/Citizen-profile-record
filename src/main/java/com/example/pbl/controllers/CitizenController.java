@@ -1,11 +1,13 @@
 package com.example.pbl.controllers;
 
 import com.example.pbl.DTO.RegisterRequest;
+import com.example.pbl.DTO.ReportForm;
 import com.example.pbl.DTO.RequestString;
 import com.example.pbl.DTO.UpdateCitizen;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.service.CitizenService;
+import org.hibernate.mapping.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -108,9 +110,24 @@ public class CitizenController {
 //    public ResponseEntity<> AgeReport(@PathVariable("id") long age,@RequestParam String area){
 //
 //    }
-    @GetMapping("/report/militaryService")
+    @GetMapping("/report/militaryService/poliId={poliId}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Citizen>> getListMilitaryService(){
-        return new ResponseEntity<>(citizenService.getListMilitaryService(),HttpStatus.OK);
+    public ResponseEntity<ReportForm<Citizen>> getListMilitaryService(@PathVariable("poliId") long poliId){
+        return new ResponseEntity<>(citizenService.getListMilitaryService(poliId),HttpStatus.OK);
+    }
+    @GetMapping("/report/married/poliId={poliId}/")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<ReportForm<Citizen>> getListMarried(@PathVariable("poliId") long poliId,@RequestParam boolean isMarried){
+        return new ResponseEntity<>(citizenService.getListMarried(poliId,isMarried),HttpStatus.OK);
+    }
+    @GetMapping("/report/gender/poliId={poliId}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<List<Long>> countGender(@PathVariable("poliId") long poliId){
+        return new ResponseEntity<>(citizenService.countGender(poliId),HttpStatus.OK);
+    }
+    @GetMapping("/report/criminalRecord/poliId={poliId}")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<ReportForm<Citizen>> getListCriminalRecord(@PathVariable("poliId") long poliId){
+        return new ResponseEntity<>(citizenService.getListCriminalRecord(poliId),HttpStatus.OK);
     }
 }

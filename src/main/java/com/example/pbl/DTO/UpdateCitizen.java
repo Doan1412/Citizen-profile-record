@@ -1,6 +1,7 @@
 package com.example.pbl.DTO;
 
 import com.example.pbl.entity.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Set;
 public class UpdateCitizen {
     private Long citizenId;
     private String name;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birth;
     private Long idFamily;//id so ho khau
     private boolean gender; //gioi tinh

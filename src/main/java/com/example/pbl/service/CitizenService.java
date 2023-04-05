@@ -1,18 +1,20 @@
 package com.example.pbl.service;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.example.pbl.DTO.RegisterRequest;
+import com.example.pbl.DTO.ReportForm;
 import com.example.pbl.DTO.UpdateCitizen;
 import com.example.pbl.entity.*;
 import com.example.pbl.repositories.*;
-import com.example.pbl.util.PasswordUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -136,7 +138,90 @@ public class CitizenService {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
-    public List<Citizen> getListMilitaryService() {
-        return citizenRepository.findByMilitaryServiceFalseAndBirthBetween(new Date(System.currentTimeMillis()-18*12*30*24*60*60*1000),new Date(System.currentTimeMillis()-26*12*30*24*60*60*1000));
+    public ReportForm<Citizen> getListMilitaryService(long poliId) {
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        LocalDate now = LocalDate.now();
+        LocalDate d1Local = now.minusYears(18);
+        LocalDate d2Local = now.minusYears(26);
+
+        Date d1 = Date.from(d1Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date d2 = Date.from(d2Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        System.out.println(d1);
+        if(politician.getLevelManager().equalsIgnoreCase("city")){
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationCityContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceAndBirthBetweenAndLocationCityContainingIgnoreCase(false,d1,d2,politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            System.out.println(d1);
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(false,d2,d1,politician.getAreaManage()),citizenRepository.findByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(false,d2,d1,politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")){
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(d1,d2,politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
+            return new ReportForm<>(citizenRepository.countByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d1,d2,politician.getAreaManage()),citizenRepository.findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(d1,d2,politician.getAreaManage()));
+        }
+        else {
+            return new ReportForm<>(-1,null);
+        }
+    }
+
+    public ReportForm<Citizen> getListMarried(long poliId,boolean f) {
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        if(politician.getLevelManager().equalsIgnoreCase("city")){
+            return new ReportForm<>(citizenRepository.countByMarriedAndLocationCityContainingIgnoreCase(f, politician.getAreaManage()),citizenRepository.findByMarriedAndLocationCityContainingIgnoreCase(f, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            return new ReportForm<>(citizenRepository.countByMarriedAndLocationDistrictContainingIgnoreCase(f, politician.getAreaManage()),citizenRepository.findByMarriedAndLocationDistrictContainingIgnoreCase(f, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")) {
+            return new ReportForm<>(citizenRepository.countByMarriedAndLocationTownContainingIgnoreCase(f, politician.getAreaManage()), citizenRepository.findByMarriedAndLocationTownContainingIgnoreCase(f, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
+            return new ReportForm<>(citizenRepository.countByMarriedAndLocationQuarterContainingIgnoreCase(f, politician.getAreaManage()), citizenRepository.findByMarriedAndLocationQuarterContainingIgnoreCase(f, politician.getAreaManage()));
+        }
+        else {
+            return new ReportForm<>(-1,null);
+        }
+    }
+
+    public List<Long> countGender(long poliId) {
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        List<Long>list = new ArrayList<>();
+        if(politician.getLevelManager().equalsIgnoreCase("city")) {
+            list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(true, politician.getAreaManage()));
+            list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(false, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(true, politician.getAreaManage()));
+            list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(false, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")) {
+            list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(true, politician.getAreaManage()));
+            list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(false, politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
+            list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(true, politician.getAreaManage()));
+            list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(false, politician.getAreaManage()));
+        }
+        return list;
+    }
+
+    public ReportForm<Citizen> getListCriminalRecord(long poliId) {
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        if(politician.getLevelManager().equalsIgnoreCase("city")){
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")) {
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(politician.getAreaManage()));
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")) {
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(politician.getAreaManage()));
+        }
+        else {
+            return new ReportForm<>(-1,null);
+        }
     }
 }
