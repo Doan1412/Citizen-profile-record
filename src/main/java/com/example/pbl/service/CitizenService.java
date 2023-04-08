@@ -224,4 +224,22 @@ public class CitizenService {
             return new ReportForm<>(-1,null);
         }
     }
+    public List<Long> getReportAge(){
+        List<Long> list =new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        LocalDate d1Local = now.minusYears(14);
+        LocalDate d2Local = now.minusYears(15);
+        LocalDate d3Local = now.minusYears(59);
+        LocalDate d4Local = now.minusYears(60);
+
+        Date d1 = Date.from(d1Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date d2 = Date.from(d2Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date d3 = Date.from(d3Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date d4 = Date.from(d4Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date dNow = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        list.add(citizenRepository.countByBirthBetween(d1,dNow));
+        list.add(citizenRepository.countByBirthBetween(d3,d2));
+        list.add(citizenRepository.countByBirthBefore(d4));
+        return list;
+    }
 }

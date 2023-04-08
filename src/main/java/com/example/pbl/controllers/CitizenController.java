@@ -130,4 +130,9 @@ public class CitizenController {
     public ResponseEntity<ReportForm<Citizen>> getListCriminalRecord(@PathVariable("poliId") long poliId){
         return new ResponseEntity<>(citizenService.getListCriminalRecord(poliId),HttpStatus.OK);
     }
+    @GetMapping("/report/age")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<List<Long>> getReportAge(){
+        return new ResponseEntity<>(citizenService.getReportAge(),HttpStatus.OK);
+    }
 }
