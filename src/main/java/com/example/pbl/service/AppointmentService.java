@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -85,8 +86,14 @@ public class AppointmentService {
         return appointmentRepository.findByPoliticianPoliticianId(politician_id);
     }
     public List<Appointment>getPoliticianAppointmentByDate(Long politician_id, Date date){
-        System.out.println(politician_id+" "+date);
-        return appointmentRepository.findByAppointmentDateAndPoliticianPoliticianId(date,politician_id);
+        Calendar calendar = Calendar.getInstance(); // tạo ra một đối tượng Calendar từ thời gian hiện tại
+        calendar.setTime(date); // thiết lập giá trị của Calendar bằng Date ban đầu
+
+        calendar.add(Calendar.HOUR_OF_DAY, 24); // cộng thêm 12 giờ
+
+        Date newDate = calendar.getTime();
+        System.out.println(politician_id+" "+newDate);
+        return appointmentRepository.findByAppointmentDateAndPoliticianPoliticianId(newDate,politician_id);
     }
     public ResponseEntity<Appointment> updateAppointment(Long id,AppointmentDto appointmentDto){
         var appointment=Appointment.builder()
@@ -105,7 +112,13 @@ public class AppointmentService {
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
     public List<Appointment>getPoliticianAppointmentByDateAndStatus(Long politician_id, Date date,String status){
-        return appointmentRepository.findByAppointmentDateAndStatusIgnoreCaseAndPoliticianPoliticianId(date,status,politician_id);
+        Calendar calendar = Calendar.getInstance(); // tạo ra một đối tượng Calendar từ thời gian hiện tại
+        calendar.setTime(date); // thiết lập giá trị của Calendar bằng Date ban đầu
+
+        calendar.add(Calendar.HOUR_OF_DAY, 24); // cộng thêm 12 giờ
+
+        Date newDate = calendar.getTime();
+        return appointmentRepository.findByAppointmentDateAndStatusIgnoreCaseAndPoliticianPoliticianId(newDate,status,politician_id);
     }
 
     public ResponseEntity<Appointment> updateAppointmentStatus(long id,String status) {
