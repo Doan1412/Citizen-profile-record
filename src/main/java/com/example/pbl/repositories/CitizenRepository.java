@@ -47,5 +47,7 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByGenderAndLocationQuarterContainingIgnoreCase(boolean f,String d);
     long countByGenderAndLocationTownContainingIgnoreCase(boolean f,String d);
     long countByBirthBefore(Date date);
+    List<Citizen> findByBirthBefore(Date date);
+    List<Citizen> findByBirthBetween(Date d1,Date d2);
     void deleteByCitizenId(Long id);
 }

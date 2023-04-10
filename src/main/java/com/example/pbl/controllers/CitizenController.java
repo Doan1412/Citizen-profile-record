@@ -132,7 +132,7 @@ public class CitizenController {
     }
     @GetMapping("/report/age")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<Long>> getReportAge(){
+    public ResponseEntity<List<ReportForm>> getReportAge(){
         return new ResponseEntity<>(citizenService.getReportAge(),HttpStatus.OK);
     }
 }

@@ -224,8 +224,8 @@ public class CitizenService {
             return new ReportForm<>(-1,null);
         }
     }
-    public List<Long> getReportAge(){
-        List<Long> list =new ArrayList<>();
+    public List<ReportForm> getReportAge(){
+        List<ReportForm> list =new ArrayList<>();
         LocalDate now = LocalDate.now();
         LocalDate d1Local = now.minusYears(14);
         LocalDate d2Local = now.minusYears(15);
@@ -237,9 +237,14 @@ public class CitizenService {
         Date d3 = Date.from(d3Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date d4 = Date.from(d4Local.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date dNow = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        list.add(citizenRepository.countByBirthBetween(d1,dNow));
-        list.add(citizenRepository.countByBirthBetween(d3,d2));
-        list.add(citizenRepository.countByBirthBefore(d4));
+
+        ReportForm r1= new ReportForm<>(citizenRepository.countByBirthBetween(d1,dNow),citizenRepository.findByBirthBetween(d1,dNow));
+        ReportForm r2= new ReportForm<>(citizenRepository.countByBirthBetween(d3,d2),citizenRepository.findByBirthBetween(d3,d2));
+        ReportForm r3= new ReportForm<>(citizenRepository.countByBirthBefore(d4),citizenRepository.findByBirthBefore(d4));
+
+        list.add(r1);
+        list.add(r2);
+        list.add(r3);
         return list;
     }
 }
