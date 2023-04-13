@@ -135,4 +135,9 @@ public class CitizenController {
     public ResponseEntity<List<ReportForm>> getReportAge(){
         return new ResponseEntity<>(citizenService.getReportAge(),HttpStatus.OK);
     }
+    @GetMapping("/report/coutAll")
+    @PreAuthorize("hasAuthority('POLITICIAN')")
+    public ResponseEntity<Long> countAll(){
+        return new ResponseEntity<>(citizenService.coutAll(),HttpStatus.OK);
+    }
 }

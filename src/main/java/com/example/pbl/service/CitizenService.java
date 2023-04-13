@@ -247,4 +247,7 @@ public class CitizenService {
         list.add(r3);
         return list;
     }
+    public long coutAll(){
+        return citizenRepository.count();
+    }
 }
