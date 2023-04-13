@@ -209,16 +209,16 @@ public class CitizenService {
     public ReportForm<Citizen> getListCriminalRecord(long poliId) {
         Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
         if(politician.getLevelManager().equalsIgnoreCase("city")){
-            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotAndLocationCityContainingIgnoreCase("",politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotAndLocationCityContainingIgnoreCase("",politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("district")){
-            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase("",politician.getAreaManage()),citizenRepository.findByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase("",politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("town")) {
-            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotAndLocationTownContainingIgnoreCase("",politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotAndLocationTownContainingIgnoreCase("",politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("quarter")) {
-            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(politician.getAreaManage()));
+            return new ReportForm<>(citizenRepository.countByCriminalRecordIsNotAndLocationQuarterContainingIgnoreCase("",politician.getAreaManage()), citizenRepository.findByCriminalRecordIsNotAndLocationQuarterContainingIgnoreCase("",politician.getAreaManage()));
         }
         else {
             return new ReportForm<>(-1,null);

@@ -34,14 +34,16 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen>findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String district);
     long countByBirthBetween(Date date1,Date date2);
     long countByCriminalRecordIsNotNull();
-    List<Citizen> findByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(String city);
-    List<Citizen> findByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(String town);
-    List<Citizen> findByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(String district);
-    List<Citizen> findByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(String quarter);
-    long countByCriminalRecordIsNotNullAndLocationCityContainingIgnoreCase(String city);
-    long countByCriminalRecordIsNotNullAndLocationTownContainingIgnoreCase(String town);
-    long countByCriminalRecordIsNotNullAndLocationDistrictContainingIgnoreCase(String district);
-    long countByCriminalRecordIsNotNullAndLocationQuarterContainingIgnoreCase(String quarter);
+
+    List<Citizen> findByCriminalRecordIsNotAndLocationCityContainingIgnoreCase(String s,String city) ;
+
+    List<Citizen> findByCriminalRecordIsNotAndLocationTownContainingIgnoreCase(String s,String town);
+    List<Citizen> findByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase(String s,String district);
+    List<Citizen> findByCriminalRecordIsNotAndLocationQuarterContainingIgnoreCase(String s,String quarter);
+    long countByCriminalRecordIsNotAndLocationCityContainingIgnoreCase(String s,String city);
+    long countByCriminalRecordIsNotAndLocationTownContainingIgnoreCase(String s,String town);
+    long countByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase(String s,String district);
+    long countByCriminalRecordIsNotAndLocationQuarterContainingIgnoreCase(String s,String quarter);
     long countByGenderAndLocationDistrictContainingIgnoreCase(boolean f,String d);
     long countByGenderAndLocationCityContainingIgnoreCase(boolean f,String d);
     long countByGenderAndLocationQuarterContainingIgnoreCase(boolean f,String d);
