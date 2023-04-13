@@ -33,7 +33,7 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String district);
     List<Citizen>findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String district);
     long countByBirthBetween(Date date1,Date date2);
-    long countByCriminalRecordIsNotNull();
+//    long countByCriminalRecordIsNotNull();
 
     List<Citizen> findByCriminalRecordIsNotAndLocationCityContainingIgnoreCase(String s,String city) ;
 
