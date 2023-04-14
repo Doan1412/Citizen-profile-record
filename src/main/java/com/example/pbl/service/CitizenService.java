@@ -190,18 +190,22 @@ public class CitizenService {
         if(politician.getLevelManager().equalsIgnoreCase("city")) {
             list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(false, politician.getAreaManage()));
+            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("district")){
             list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(false, politician.getAreaManage()));
+            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("town")) {
             list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(false, politician.getAreaManage()));
+            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
             list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(false, politician.getAreaManage()));
+            list.add(list.get(0) + list.get(1));
         }
         return list;
     }
