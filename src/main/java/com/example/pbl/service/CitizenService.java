@@ -247,7 +247,22 @@ public class CitizenService {
         list.add(r3);
         return list;
     }
-    public long coutAll(){
-        return citizenRepository.count();
+    public long coutCitizen(long poliId){
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        if(politician.getLevelManager().equalsIgnoreCase("city")){
+            return citizenRepository.countByLocationCity(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            return  citizenRepository.countByLocationDistrict(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")) {
+            return citizenRepository.countByLocationTown(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")) {
+            return citizenRepository.countByLocationQuarter(politician.getAreaManage());
+        }
+        else {
+            return -1;
+        }
     }
 }

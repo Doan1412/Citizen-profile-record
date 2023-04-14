@@ -135,9 +135,9 @@ public class CitizenController {
     public ResponseEntity<List<ReportForm>> getReportAge(){
         return new ResponseEntity<>(citizenService.getReportAge(),HttpStatus.OK);
     }
-    @GetMapping("/report/coutAll")
+    @GetMapping("/report/countCitizen/poliId={poliId}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<Long> countAll(){
-        return new ResponseEntity<>(citizenService.coutAll(),HttpStatus.OK);
+    public ResponseEntity<Long> countAll(@PathVariable("poliId") long poliId){
+        return new ResponseEntity<>(citizenService.coutCitizen(poliId),HttpStatus.OK);
     }
 }
