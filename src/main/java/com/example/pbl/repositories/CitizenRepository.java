@@ -24,6 +24,11 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByMarriedAndLocationDistrictContainingIgnoreCase(boolean isMarried,String d);
     long countByMarriedAndLocationTownContainingIgnoreCase(boolean isMarried,String d);
     long countByMarriedAndLocationQuarterContainingIgnoreCase(boolean isMarried,String d);
+    List<Citizen>findByMarried(boolean isMarried);
+    long countByMarried(boolean isMarried);
+    long countByMilitaryServiceAndBirthBetween(boolean f,Date date1,Date date2);
+    List<Citizen>findByMilitaryServiceAndBirthBetween(boolean f,Date date1,Date date2);
+
     long countByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(boolean f,Date date1,Date date2,String district);
     List<Citizen>findByMilitaryServiceAndBirthBetweenAndLocationDistrictContainingIgnoreCase(boolean f,Date date1,Date date2,String district);
     long countByMilitaryServiceFalseAndBirthBetweenAndLocationTownContainingIgnoreCase(Date date1,Date date2,String town);
@@ -33,6 +38,15 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String district);
     List<Citizen>findByMilitaryServiceFalseAndBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String district);
     long countByBirthBetween(Date date1,Date date2);
+    long countByBirthBetweenAndLocationCityContainingIgnoreCase(Date date1,Date date2,String s);
+    long countByBirthBetweenAndLocationQuarterContainingIgnoreCase(Date date1,Date date2,String s);
+    long countByBirthBetweenAndLocationDistrictContainingIgnoreCase(Date date1,Date date2,String s);
+    long countByBirthBetweenAndLocationTownContainingIgnoreCase(Date date1,Date date2,String s);
+    long countByBirthBeforeAndLocationCityContainingIgnoreCase(Date date,String s);
+    long countByBirthBeforeAndLocationQuarterContainingIgnoreCase(Date date,String s);
+    long countByBirthBeforeAndLocationDistrictContainingIgnoreCase(Date date,String s);
+    long countByBirthBeforeAndLocationTownContainingIgnoreCase(Date date,String s);
+
 //    long countByCriminalRecordIsNotNull();
     long countByLocationCity(String s);
     long countByLocationTown(String s);
@@ -43,6 +57,8 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen> findByCriminalRecordIsNotAndLocationTownContainingIgnoreCase(String s,String town);
     List<Citizen> findByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase(String s,String district);
     List<Citizen> findByCriminalRecordIsNotAndLocationQuarterContainingIgnoreCase(String s,String quarter);
+    List<Citizen> findByCriminalRecordIsNot(String s);
+    long countByCriminalRecordIsNot(String s);
     long countByCriminalRecordIsNotAndLocationCityContainingIgnoreCase(String s,String city);
     long countByCriminalRecordIsNotAndLocationTownContainingIgnoreCase(String s,String town);
     long countByCriminalRecordIsNotAndLocationDistrictContainingIgnoreCase(String s,String district);
@@ -51,6 +67,7 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     long countByGenderAndLocationCityContainingIgnoreCase(boolean f,String d);
     long countByGenderAndLocationQuarterContainingIgnoreCase(boolean f,String d);
     long countByGenderAndLocationTownContainingIgnoreCase(boolean f,String d);
+    long countByGender(boolean f);
     long countByBirthBefore(Date date);
     List<Citizen> findByBirthBefore(Date date);
     List<Citizen> findByBirthBetween(Date d1,Date d2);

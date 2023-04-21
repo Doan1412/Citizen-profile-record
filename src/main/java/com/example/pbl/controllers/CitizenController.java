@@ -130,14 +130,14 @@ public class CitizenController {
     public ResponseEntity<ReportForm<Citizen>> getListCriminalRecord(@PathVariable("poliId") long poliId){
         return new ResponseEntity<>(citizenService.getListCriminalRecord(poliId),HttpStatus.OK);
     }
-    @GetMapping("/report/age")
+    @GetMapping("/report/age/poliId={poliId}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public ResponseEntity<List<ReportForm>> getReportAge(){
-        return new ResponseEntity<>(citizenService.getReportAge(),HttpStatus.OK);
+    public ResponseEntity<List<Long>> getReportAge(@PathVariable("poliId") long poliId){
+        return new ResponseEntity<>(citizenService.getReportAge(poliId),HttpStatus.OK);
     }
     @GetMapping("/report/countCitizen/poliId={poliId}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<Long> countAll(@PathVariable("poliId") long poliId){
-        return new ResponseEntity<>(citizenService.coutCitizen(poliId),HttpStatus.OK);
+        return new ResponseEntity<>(citizenService.countCitizen(poliId),HttpStatus.OK);
     }
 }
