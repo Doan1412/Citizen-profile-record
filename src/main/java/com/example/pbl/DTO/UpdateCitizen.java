@@ -33,4 +33,5 @@ public class UpdateCitizen {
     private String district;
     private String city;
     private boolean militaryService;
+    private String homeOwnerRelationship;
 }

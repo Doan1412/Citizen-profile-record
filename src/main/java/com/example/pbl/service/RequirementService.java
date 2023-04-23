@@ -39,7 +39,7 @@ public class RequirementService {
 //    public Requirement addRequirement(Requirement requirement){
 //        return requirementRepository.save(requirement);
 //    }
-    public void deleteRequirement(Long id){
+    public void deleteRequirement(long id){
         requirementRepository.deleteById(id);
     }
     public List<Requirement> getByPoliticianId(Long id){
@@ -92,5 +92,8 @@ public class RequirementService {
             return new ResponseEntity<>(requirementData.get(),HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
+    public List<Requirement> getByCitizenId(long id){
+        return requirementRepository.findByAuthorCitizenId(id);
     }
 }

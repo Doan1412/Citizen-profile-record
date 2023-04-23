@@ -46,8 +46,8 @@ public class Citizen implements UserDetails {
     @NotNull
     private Date birth;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinColumn(name = "family_id",referencedColumnName = "family_id")
+//    @JsonManagedReference
+    @JoinColumn(name = "family_id",referencedColumnName = "id")
     private Family family;//id so ho khau
     @NotNull
     private boolean gender; //gioi tinh
@@ -76,8 +76,9 @@ public class Citizen implements UserDetails {
     private boolean married;
     private String imgUrl;
     private boolean militaryService;
+    private String homeOwnerRelationship;
 
-    public Citizen(String name, String password, Set<Role> role, Date birth, Family family, boolean gender, String ethnic, String religion, String nationality, String address, Location location, String profession, String criminalRecord, String email, String phone,boolean isMarried,String imgUrl,boolean militaryService) {
+    public Citizen(@NotNull String name, @NotNull String password, @NotNull Set<Role> role, @NotNull Date birth, Family family, @NotNull boolean gender, @NotNull String ethnic, String religion, @NotNull String nationality, @NotNull String address, @NotNull Location location, @NotNull String profession, String criminalRecord, String email, @NotNull String phone, @NotNull boolean married, String imgUrl, boolean militaryService, String homeOwnerRelationship) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -93,9 +94,10 @@ public class Citizen implements UserDetails {
         this.criminalRecord = criminalRecord;
         this.email = email;
         this.phone = phone;
-        this.married=isMarried;
-        this.imgUrl=imgUrl;
-        this.militaryService=militaryService;
+        this.married = married;
+        this.imgUrl = imgUrl;
+        this.militaryService = militaryService;
+        this.homeOwnerRelationship = homeOwnerRelationship;
     }
 
     public Long getId() {
@@ -222,8 +224,8 @@ public class Citizen implements UserDetails {
         this.location = location;
     }
 
-    public Family getFamily() {
-        return family;
+    public Long getFamily() {
+        return family.getId_Family();
     }
 
     public void setFamily(Family family) {
@@ -262,15 +264,22 @@ public class Citizen implements UserDetails {
         this.militaryService = militaryService;
     }
 
+    public String getHomeOwnerRelationship() {
+        return homeOwnerRelationship;
+    }
+
+    public void setHomeOwnerRelationship(String homeOwnerRelationship) {
+        this.homeOwnerRelationship = homeOwnerRelationship;
+    }
+
     @Override
     public String toString() {
         return "Citizen{" +
                 "citizenId=" + citizenId +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
                 ", role=" + role +
                 ", birth=" + birth +
-                ", family=" + family +
+                ", family=" + (family != null ? family.getId_Family() : null)+
                 ", gender=" + gender +
                 ", ethnic='" + ethnic + '\'' +
                 ", religion='" + religion + '\'' +
@@ -283,7 +292,8 @@ public class Citizen implements UserDetails {
                 ", phone='" + phone + '\'' +
                 ", married=" + married +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", militaryService=" + militaryService +
+//                ", militaryService=" + militaryService +
+                ", homeOwnerRelationship='" + homeOwnerRelationship + '\'' +
                 '}';
     }
 

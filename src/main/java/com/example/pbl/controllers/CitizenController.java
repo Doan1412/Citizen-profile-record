@@ -140,4 +140,9 @@ public class CitizenController {
     public ResponseEntity<Long> countAll(@PathVariable("poliId") long poliId){
         return new ResponseEntity<>(citizenService.countCitizen(poliId),HttpStatus.OK);
     }
+    @GetMapping("family/id={id}")
+    @PreAuthorize("hasAuthority('CITIZEN')")
+    public ResponseEntity<List<Citizen>> getFamily(@PathVariable("id") long id){
+        return citizenService.getFamily(id);
+    }
 }

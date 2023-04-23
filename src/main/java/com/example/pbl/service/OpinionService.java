@@ -32,4 +32,7 @@ public class OpinionService {
     public List<Opinion> getOpinion(){
         return opinionRepository.findAll();
     }
+    public List<Opinion> getOpinionByCitizen(long id){
+        return opinionRepository.findByCitizenCitizenId(id);
+    }
 }

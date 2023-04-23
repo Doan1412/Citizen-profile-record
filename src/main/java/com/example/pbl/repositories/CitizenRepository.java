@@ -72,4 +72,5 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long> {
     List<Citizen> findByBirthBefore(Date date);
     List<Citizen> findByBirthBetween(Date d1,Date d2);
     void deleteByCitizenId(Long id);
+    List<Citizen>findByFamilyId (Long id);
 }

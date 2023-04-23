@@ -83,8 +83,8 @@ public class CitizenService {
     @Transactional
     public void deleteCitizen(Long id){
         Citizen citizen = citizenRepository.findById(id).orElseThrow();
-        Family family = citizen.getFamily();
-        if (citizen.getFamily() != null) {
+        Family family = familyRepository.findById(citizen.getFamily()).get();
+        if (citizen.getFamily() != null && family!=null) {
             family.getFamilyMemberList().remove(citizen);
             familyRepository.save(family);
         }
@@ -132,6 +132,7 @@ public class CitizenService {
                     .imgUrl(request.getImgUrl())
                     .criminalRecord(request.getCriminalRecord())
                     .militaryService(request.isMilitaryService())
+                    .homeOwnerRelationship(request.getHomeOwnerRelationship())
                     .build();
             return new ResponseEntity<>(citizenRepository.save(citizen),HttpStatus.OK);
         }
@@ -302,5 +303,8 @@ public class CitizenService {
         else {
             return -1;
         }
+    }
+    public ResponseEntity<List<Citizen>> getFamily(long id){
+        return new ResponseEntity<>(citizenRepository.findByFamilyId(id),HttpStatus.OK);
     }
 }

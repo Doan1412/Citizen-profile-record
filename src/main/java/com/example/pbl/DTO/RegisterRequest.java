@@ -35,4 +35,5 @@ public class RegisterRequest {
     private boolean married;
     private String imgUrl;
     private boolean militaryService;
+    private String homeOwnerRelationship;
 }

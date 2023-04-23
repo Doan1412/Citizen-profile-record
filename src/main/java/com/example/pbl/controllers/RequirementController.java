@@ -6,6 +6,7 @@ import com.example.pbl.entity.Appointment;
 import com.example.pbl.entity.Citizen;
 import com.example.pbl.entity.Requirement;
 import com.example.pbl.service.RequirementService;
+import com.example.pbl.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,15 @@ public class RequirementController {
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public ResponseEntity<Requirement>updateStatus(@PathVariable long id, @RequestBody RequestString requestString){
         return requirementService.updateStatus(id,requestString.getString());
+    }
+    @GetMapping("/citizenId={id}")
+    @PreAuthorize("hasAuthority('CITIZEN')")
+    public ResponseEntity<List<Requirement>>getByCitizenId(@PathVariable long id){
+        return new ResponseEntity<>(requirementService.getByCitizenId(id),HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('CITIZEN')")
+    public void deleteRequirement(@PathVariable long id){
+        requirementService.deleteRequirement(id);
     }
 }
