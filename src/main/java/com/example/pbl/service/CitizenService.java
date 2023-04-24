@@ -299,6 +299,25 @@ public class CitizenService {
             return -1;
         }
     }
+    public List<Citizen> getCitizen(long poliId){
+        Politician politician=politicianRepository.findByPoliticianId(poliId).orElseThrow();
+        if(politician.getLevelManager().equalsIgnoreCase("city")){
+            return getCityCitizen(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("district")){
+            return  getDistrictCitizen(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("town")) {
+            return getTownCitizen(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("quarter")) {
+            return getQuarterCitizen(politician.getAreaManage());
+        }
+        else if (politician.getLevelManager().equalsIgnoreCase("country")){
+            return citizenRepository.findAll();
+        }
+        return null;
+    }
     public ResponseEntity<List<Citizen>> getFamily(long id){
         return new ResponseEntity<>(citizenRepository.findByFamilyId(id),HttpStatus.OK);
     }
