@@ -195,26 +195,21 @@ public class CitizenService {
         if(politician.getLevelManager().equalsIgnoreCase("city")) {
             list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationCityContainingIgnoreCase(false, politician.getAreaManage()));
-            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("district")){
             list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationDistrictContainingIgnoreCase(false, politician.getAreaManage()));
-            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("town")) {
             list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationTownContainingIgnoreCase(false, politician.getAreaManage()));
-            list.add(list.get(0) + list.get(1));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("quarter")){
             list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(true, politician.getAreaManage()));
             list.add(citizenRepository.countByGenderAndLocationQuarterContainingIgnoreCase(false, politician.getAreaManage()));
-            list.add(list.get(0) + list.get(1));
         } else if (politician.getLevelManager().equalsIgnoreCase("country")) {
             list.add(citizenRepository.countByGender(true));
             list.add(citizenRepository.countByGender(false));
-            list.add(list.get(0) + list.get(1));
         }
         return list;
     }
@@ -259,31 +254,26 @@ public class CitizenService {
             list.add(citizenRepository.countByBirthBetweenAndLocationCityContainingIgnoreCase(d1,dNow,politician.getAreaManage()));
             list.add(citizenRepository.countByBirthBetweenAndLocationCityContainingIgnoreCase(d3,d2,politician.getAreaManage()));;
             list.add(citizenRepository.countByBirthBeforeAndLocationCityContainingIgnoreCase(d4,politician.getAreaManage()));;
-            list.add(citizenRepository.countByLocationCity(politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("district")){
             list.add(citizenRepository.countByBirthBetweenAndLocationDistrictContainingIgnoreCase(d1,dNow,politician.getAreaManage()));
             list.add(citizenRepository.countByBirthBetweenAndLocationDistrictContainingIgnoreCase(d3,d2,politician.getAreaManage()));;
             list.add(citizenRepository.countByBirthBeforeAndLocationDistrictContainingIgnoreCase(d4,politician.getAreaManage()));;
-            list.add(citizenRepository.countByLocationDistrict(politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("town")) {
             list.add(citizenRepository.countByBirthBetweenAndLocationTownContainingIgnoreCase(d1,dNow,politician.getAreaManage()));
             list.add(citizenRepository.countByBirthBetweenAndLocationTownContainingIgnoreCase(d3,d2,politician.getAreaManage()));;
             list.add(citizenRepository.countByBirthBeforeAndLocationTownContainingIgnoreCase(d4,politician.getAreaManage()));;
-            list.add(citizenRepository.countByLocationTown(politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("quarter")) {
             list.add(citizenRepository.countByBirthBetweenAndLocationQuarterContainingIgnoreCase(d1,dNow,politician.getAreaManage()));
             list.add(citizenRepository.countByBirthBetweenAndLocationQuarterContainingIgnoreCase(d3,d2,politician.getAreaManage()));;
             list.add(citizenRepository.countByBirthBeforeAndLocationQuarterContainingIgnoreCase(d4,politician.getAreaManage()));;
-            list.add(citizenRepository.countByLocationQuarter(politician.getAreaManage()));
         }
         else if (politician.getLevelManager().equalsIgnoreCase("country")){
             list.add(citizenRepository.countByBirthBetween(d1,dNow));
             list.add(citizenRepository.countByBirthBetween(d3,d2));
             list.add(citizenRepository.countByBirthBefore(d4));
-            list.add(citizenRepository.count());
         }
 
         return list;
@@ -311,5 +301,19 @@ public class CitizenService {
     }
     public ResponseEntity<List<Citizen>> getFamily(long id){
         return new ResponseEntity<>(citizenRepository.findByFamilyId(id),HttpStatus.OK);
+    }
+    public List<Long>countReport(long id){
+        List<Long> report =new ArrayList<>();
+        report.add(countCitizen(id));
+        report.addAll(countGender(id));
+        ReportForm r=getListMilitaryService(id);
+        report.add(r.getCount());
+        ReportForm r2= getListCriminalRecord(id);
+        report.add(r2.getCount());
+        ReportForm r3 = getListMarried(id,true);
+        report.add(r3.getCount());
+        report.add(report.get(0)- r3.getCount());
+        report.addAll(getReportAge(id));
+        return  report;
     }
 }
