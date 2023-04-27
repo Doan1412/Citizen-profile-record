@@ -17,10 +17,10 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "sender_politician_id")
     private Politician politician;
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "receivers_citizen_id")
     private List<Citizen> citizens;
     public String getMessage() {

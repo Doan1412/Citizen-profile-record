@@ -12,4 +12,5 @@ public interface RequirementRepository extends JpaRepository<Requirement, Long> 
     List<Requirement>findByRecipientPoliticianId(Long id);
     void deleteByAuthorCitizenId(Long id);
     List<Requirement>findByAuthorCitizenId(Long id);
+    void deleteByRecipientPoliticianId(Long id);
 }

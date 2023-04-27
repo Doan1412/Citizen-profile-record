@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
     List<Notification> findByPoliticianPoliticianId(Long id);
     List<Notification> findByCitizensCitizenId(Long id);
+    void deleteByPoliticianPoliticianId(Long id);
 }

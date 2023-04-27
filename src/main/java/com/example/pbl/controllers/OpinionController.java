@@ -19,7 +19,7 @@ public class OpinionController {
     @Autowired
     private OpinionService opinionService;
     @PostMapping("/new")
-    @PreAuthorize("hasAuthority('CITIZEN') or hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Opinion> createOpinion(@RequestBody RequirementRequest opinion) {
         return opinionService.createOpinion(opinion);
     }
@@ -29,7 +29,7 @@ public class OpinionController {
         return new ResponseEntity<>(opinionService.getOpinion(), HttpStatus.OK);
     }
     @GetMapping("/get/citizenId={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<List<Opinion>>getOpinionByCitizen(@PathVariable Long id){
         return new ResponseEntity<>(opinionService.getOpinionByCitizen(id), HttpStatus.OK);
     }

@@ -21,7 +21,7 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
     @GetMapping("/citizenId={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<List<Notification>> getNotificationByCitizenId(@PathVariable long id){
         try {
             return new ResponseEntity<>(notificationService.getByCitizenId(id), HttpStatus.OK);

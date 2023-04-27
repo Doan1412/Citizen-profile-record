@@ -21,7 +21,7 @@ import java.util.List;
 public class RequirementController {
     private final RequirementService requirementService;
     @PostMapping("/new")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Requirement> addRequirement(
             @RequestBody RequirementRequest request
             ) {
@@ -44,17 +44,17 @@ public class RequirementController {
         }
     }
     @PatchMapping("/updateStatus/id={id}")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Requirement>updateStatus(@PathVariable long id, @RequestBody RequestString requestString){
         return requirementService.updateStatus(id,requestString.getString());
     }
     @GetMapping("/citizenId={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<List<Requirement>>getByCitizenId(@PathVariable long id){
         return new ResponseEntity<>(requirementService.getByCitizenId(id),HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public void deleteRequirement(@PathVariable long id){
         requirementService.deleteRequirement(id);
     }

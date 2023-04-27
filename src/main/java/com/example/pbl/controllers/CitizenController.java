@@ -217,7 +217,7 @@ public class CitizenController {
     public void citizenDetailsReport(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String fileType = "attachment; filename=citizen_details_.xlsx";
+        String fileType = "attachment; filename=citizen_details_.xls";
         response.setHeader("Content-Disposition", fileType);
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
         response.setCharacterEncoding("utf-8");

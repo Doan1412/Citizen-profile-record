@@ -19,7 +19,7 @@ public class Requirement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_requirement;
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "author_citizen_id")
     private Citizen author;
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
