@@ -1,6 +1,10 @@
 package com.example.pbl.util;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
 
 import com.example.pbl.entity.Citizen;
 import com.lowagie.text.Document;
@@ -17,7 +21,8 @@ import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class PdfGenerator {
-    public void generate(List <Citizen> citizenList, HttpServletResponse response) throws DocumentException, IOException {
+
+    public void generate(List<Citizen> citizenList, HttpServletResponse response) throws DocumentException, IOException {
         // Creating the Object of Document
         Document document = new Document(PageSize.A4);
         // Getting instance of PdfWriter
@@ -26,19 +31,21 @@ public class PdfGenerator {
         document.open();
         // Creating font
         // Setting font style and size
-        Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-        fontTiltle.setSize(20);
+        Font fontTitle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+        fontTitle.setSize(16);
         // Creating paragraph
-        Paragraph paragraph1 = new Paragraph("List of the Students", fontTiltle);
+        Paragraph paragraph1 = new Paragraph("List of the Citizen", fontTitle);
         // Aligning the paragraph in the document
         paragraph1.setAlignment(Paragraph.ALIGN_CENTER);
         // Adding the created paragraph in the document
         document.add(paragraph1);
+        // Add some spacing after the paragraph
+        document.add(new Paragraph("\n"));
         // Creating a table of the 4 columns
         PdfPTable table = new PdfPTable(4);
         // Setting width of the table, its columns and spacing
         table.setWidthPercentage(100f);
-        table.setWidths(new int[] {3,3,3,3});
+        table.setWidths(new int[]{3, 3, 3, 3});
         table.setSpacingBefore(5);
         // Create Table Cells for the table header
         PdfPCell cell = new PdfPCell();
@@ -59,15 +66,20 @@ public class PdfGenerator {
         table.addCell(cell);
         cell.setPhrase(new Phrase("Mobile No", font));
         table.addCell(cell);
-        for (Citizen citizen: citizenList) {
+        for (Citizen citizen : citizenList) {
+            System.out.println(citizen.getName());
             table.addCell(String.valueOf(citizen.getId()));
             table.addCell(citizen.getName());
-            table.addCell(citizen.getBirth().toString());
+            DateFormat dateFormat = new SimpleDateFormat("DD-MM-YYYY");
+            String currentDateTime = dateFormat.format(citizen.getBirth());
+            table.addCell(currentDateTime);
             table.addCell(citizen.getPhone());
         }
         // Adding the created table to the document
+        System.out.println(table);
         document.add(table);
         // Closing the document
         document.close();
     }
+
 }

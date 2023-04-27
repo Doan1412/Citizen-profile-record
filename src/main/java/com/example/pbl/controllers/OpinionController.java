@@ -19,7 +19,7 @@ public class OpinionController {
     @Autowired
     private OpinionService opinionService;
     @PostMapping("/new")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('CITIZEN') or hasAuthority('POLITICIAN')")
     public ResponseEntity<Opinion> createOpinion(@RequestBody RequirementRequest opinion) {
         return opinionService.createOpinion(opinion);
     }

@@ -46,28 +46,32 @@ public class RequirementService {
         return requirementRepository.findByRecipientPoliticianId(id);
     }
     public ResponseEntity<Requirement>addRequirement(RequirementRequest request){
-        Requirement requirement=new Requirement();
-        Optional<Citizen> citizenData= citizenRepository.findById(request.getAuthor_id());
-        if(!citizenData.isPresent()){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        } else {
-            requirement.setAuthor(citizenData.get());
-        }
-        ListIterator<Long>list=request.getRecipient_id().listIterator();
-        while(list.hasNext()){
-            Optional<Politician> politicianData= politicianRepository.findById(list.next());
-            if(!politicianData.isPresent()){
-                return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        try {
+            Requirement requirement = new Requirement();
+            Optional<Citizen> citizenData = citizenRepository.findById(request.getAuthor_id());
+            if (!citizenData.isPresent()) {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            } else {
+                requirement.setAuthor(citizenData.get());
             }
-            else {
-                requirement.addRecipient(politicianData.get());
+            ListIterator<Long> list = request.getRecipient_id().listIterator();
+            while (list.hasNext()) {
+                Optional<Politician> politicianData = politicianRepository.findById(list.next());
+                if (!politicianData.isPresent()) {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                } else {
+                    requirement.addRecipient(politicianData.get());
+                }
             }
+            requirement.setDate(request.getDate());
+            requirement.setDescription(request.getDescription());
+            requirement.setStatus("Đang xử lý");
+            requirementRepository.save(requirement);
+            return new ResponseEntity<>(requirement, HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        requirement.setDate(request.getDate());
-        requirement.setDescription(request.getDescription());
-        requirement.setStatus("Đang xử lý");
-        requirementRepository.save(requirement);
-        return new ResponseEntity<>(requirement,HttpStatus.CREATED);
     }
     public ResponseEntity<Requirement>forwardRequest(Long requirementId, Long nextPoliticianId){
         Optional<Requirement>requirementData=requirementRepository.findById(requirementId);

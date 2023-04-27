@@ -9,6 +9,7 @@ import com.example.pbl.repositories.CitizenRepository;
 import com.example.pbl.service.CitizenService;
 import com.lowagie.text.DocumentException;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -172,8 +174,7 @@ public class CitizenController {
 //    }
     @GetMapping("/export-to-pdf/militaryService/poliId={id}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public void generateMilitaryServicePdfFile(HttpServletResponse response,@PathVariable("id") long id) throws DocumentException, IOException
-    {
+    public void generateMilitaryServicePdfFile(HttpServletResponse response,@PathVariable("id") long id) throws Exception {
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
@@ -186,38 +187,43 @@ public class CitizenController {
     }
     @GetMapping("/export-to-pdf/citizen/poliId={id}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public void generateCitizenListPdfFile(HttpServletResponse response,@PathVariable("id") long id) throws DocumentException, IOException
-    {
+    @ResponseBody
+    public void generateCitizenListPdfFile(HttpServletResponse response,@PathVariable("id") long id) throws Exception {
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
         String headerkey = "Content-Disposition";
         String headervalue = "attachment; filename=student" + currentDateTime + ".pdf";
         response.setHeader(headerkey, headervalue);
-        List < Citizen > Citizens = citizenService.getAllCitizen();
+        response.setCharacterEncoding("UTF-8");
+        List < Citizen > citizens = citizenService.getCitizen(id);
         PdfGenerator generator = new PdfGenerator();
-        generator.generate(Citizens, response);
+        generator.generate(citizens, response);
     }
     @GetMapping("/excel/militaryService/poliId={id}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
     public void citizenMilitaryServiceReport(@PathVariable("id") long id,HttpServletResponse response) throws IOException {
-
+        response.setContentType("application/vnd.ms-excel");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String fileType = "attachment; filename=citizen_Military_Service_Report" + dateFormat.format(new Date()) + ".xls";
         response.setHeader("Content-Disposition", fileType);
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
 
-        ExcelGeneratorUtility.employeeDetailReport(response, citizenService.getListMilitaryService(id).getList());
+        ExcelGeneratorUtility.citizenDetailReport(citizenService.getListMilitaryService(id).getList());
     }
     @GetMapping("/excel/citizen/poliId={id}")
     @PreAuthorize("hasAuthority('POLITICIAN')")
-    public void citizenDetailsReport(@PathVariable("id") long id,HttpServletResponse response) throws IOException {
-
+    @ResponseBody
+    public void citizenDetailsReport(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String fileType = "attachment; filename=citizen_details_" + dateFormat.format(new Date()) + ".xls";
+        String fileType = "attachment; filename=citizen_details_.xlsx";
         response.setHeader("Content-Disposition", fileType);
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
-
-        ExcelGeneratorUtility.employeeDetailReport(response, citizenService.getCitizen(id));
+        response.setCharacterEncoding("utf-8");
+        ByteArrayInputStream stream = ExcelGeneratorUtility.citizenDetailReport(citizenService.getCitizen(id));
+        IOUtils.copy(stream, response.getOutputStream());
+        response.flushBuffer();
+        stream.close();
     }
 }

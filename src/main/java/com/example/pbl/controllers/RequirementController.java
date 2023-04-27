@@ -25,6 +25,7 @@ public class RequirementController {
     public ResponseEntity<Requirement> addRequirement(
             @RequestBody RequirementRequest request
             ) {
+        System.out.println("test1");
         return requirementService.addRequirement(request);
     }
     @PutMapping("/forwardRequest")

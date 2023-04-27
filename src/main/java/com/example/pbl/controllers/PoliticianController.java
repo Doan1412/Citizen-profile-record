@@ -29,7 +29,7 @@ public class PoliticianController {
         this.politicianRepository = politicianRepository;
     }
     @GetMapping("/listPolitician/country")
-    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Politician>> getAllPolitician(){
         try {
