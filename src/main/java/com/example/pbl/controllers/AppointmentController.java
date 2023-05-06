@@ -26,20 +26,20 @@ public class AppointmentController {
     }
 
     @PostMapping("/new")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Appointment> addAppointment(
             @RequestBody AppointmentDto appointmentDto
             ) {
         return appointmentService.addAppointment(appointmentDto);
     }
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/citizen_id={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<List<Appointment>>getCitizenAppointment(@PathVariable Long id){
         try{
             List<Appointment>appointmentList= appointmentService.getCitizenAppointment(id);
@@ -61,7 +61,7 @@ public class AppointmentController {
         }
     }
     @PutMapping("/update/id={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Appointment>updateAppointment(@PathVariable("id") long id,@RequestBody AppointmentDto appointmentDto){
         return appointmentService.updateAppointment(id,appointmentDto);
     }

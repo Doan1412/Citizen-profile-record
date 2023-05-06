@@ -98,7 +98,7 @@ public class CitizenController {
         }
     }
     @GetMapping("/listCitizen/id={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<Citizen> getCitizenById(@PathVariable("id") long id){
         return citizenService.getCitizenById(id);
     }
@@ -149,7 +149,7 @@ public class CitizenController {
         return new ResponseEntity<>(citizenService.countCitizen(poliId),HttpStatus.OK);
     }
     @GetMapping("family/id={id}")
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     public ResponseEntity<List<Citizen>> getFamily(@PathVariable("id") long id){
         return citizenService.getFamily(id);
     }

@@ -45,7 +45,7 @@ public class AuthenticationController {
     public  ResponseEntity<Void>user(){
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
-    @PreAuthorize("hasAuthority('CITIZEN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN') or hasAuthority('CITIZEN') ")
     @PutMapping("/changePassword")
     public ResponseEntity<AuthenticationResponse>changePassword (
             @RequestBody ChangePassword request
