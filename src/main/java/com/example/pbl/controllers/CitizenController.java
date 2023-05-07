@@ -158,6 +158,11 @@ public class CitizenController {
     public ResponseEntity<List<Long>> countReport(@PathVariable("poliId") long poliId){
         return new ResponseEntity<>(citizenService.countReport(poliId),HttpStatus.OK);
     }
+    @GetMapping("admin/report")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Long>>adminReport(){
+        return new ResponseEntity<>(citizenService.adminReport(),HttpStatus.OK);
+    }
 //    @GetMapping("/export-to-pdf/militaryService/poliId={id}")
 //    @PreAuthorize("hasAuthority('POLITICIAN')")
 //    public void generatePdfFile(HttpServletResponse response,@PathVariable("id") long id) throws DocumentException, IOException
@@ -225,10 +230,5 @@ public class CitizenController {
         IOUtils.copy(stream, response.getOutputStream());
         response.flushBuffer();
         stream.close();
-    }
-    @GetMapping("admin/report")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<Long>>adminReport(){
-        return new ResponseEntity<>(citizenService.adminReport(),HttpStatus.OK);
     }
 }

@@ -336,9 +336,9 @@ public class CitizenService {
         return  report;
     }
     public List<Long> adminReport(){
-        List l=new ArrayList<>();
-        l.add(citizenRepository.findAll());
-        l.add(politicianRepository.findAll());
+        List<Long> l=new ArrayList<>();
+        l.add(citizenRepository.count());
+        l.add(politicianRepository.count());
         return l;
     }
 }
