@@ -335,4 +335,10 @@ public class CitizenService {
         report.addAll(getReportAge(id));
         return  report;
     }
+    public List<Long> adminReport(){
+        List l=new ArrayList<>();
+        l.add(citizenRepository.findAll());
+        l.add(politicianRepository.findAll());
+        return l;
+    }
 }

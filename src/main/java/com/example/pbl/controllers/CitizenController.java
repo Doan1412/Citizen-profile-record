@@ -226,4 +226,9 @@ public class CitizenController {
         response.flushBuffer();
         stream.close();
     }
+    @GetMapping("admin/report")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Long>>adminReport(){
+        return new ResponseEntity<>(citizenService.adminReport(),HttpStatus.OK);
+    }
 }

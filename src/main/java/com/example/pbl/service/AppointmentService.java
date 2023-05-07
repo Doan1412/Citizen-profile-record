@@ -104,6 +104,7 @@ public class AppointmentService {
                 .startTime(appointmentDto.getStartTime())
                 .endTime(appointmentDto.getEndTime())
                 .description(appointmentDto.getDescription())
+                .status(appointmentDto.getStatus())
                 .build();
         if(isOverlapping(appointment, appointmentDto.getPolitician_id())){
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
