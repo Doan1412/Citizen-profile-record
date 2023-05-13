@@ -24,7 +24,7 @@ public class OpinionController {
         return opinionService.createOpinion(opinion);
     }
     @GetMapping("/get")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Opinion>> getAllOpinions() {
         return new ResponseEntity<>(opinionService.getOpinion(), HttpStatus.OK);
     }

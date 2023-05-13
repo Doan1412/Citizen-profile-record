@@ -51,7 +51,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/city={nameCode}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Citizen>> getCityCitizen(@PathVariable String nameCode){
         try {
             String name= URLDecoder.decode(nameCode, StandardCharsets.UTF_8);
@@ -63,7 +63,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/town={nameCode}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Citizen>> getTownCitizen(@PathVariable String nameCode){
         try {
             String name= URLDecoder.decode(nameCode, StandardCharsets.UTF_8);
@@ -75,7 +75,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/district={nameCode}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Citizen>> getDistrictCitizen(@PathVariable String nameCode){
         try {
             String name= URLDecoder.decode(nameCode, StandardCharsets.UTF_8);
@@ -87,7 +87,7 @@ public class CitizenController {
     }
     @GetMapping("/listCitizen/quarter={nameCode}")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<Citizen>> getQuarterCitizen(@PathVariable String nameCode){
         try {
             String name= URLDecoder.decode(nameCode, StandardCharsets.UTF_8);
@@ -103,7 +103,7 @@ public class CitizenController {
         return citizenService.getCitizenById(id);
     }
     @PutMapping("/update")
-    @PreAuthorize("hasAuthority('POLITICIAN')")
+    @PreAuthorize("hasAuthority('POLITICIAN') or hasAnyAuthority('ADMIN')")
     public ResponseEntity<Citizen> updateCitizen(@RequestBody UpdateCitizen request){
         return citizenService.updateCitizen(request);
     }
