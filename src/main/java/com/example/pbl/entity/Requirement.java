@@ -23,7 +23,7 @@ public class Requirement {
     @JoinColumn(name = "author_citizen_id")
     private Citizen author;
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JsonBackReference
+//    @JsonBackReference
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude
     @JoinColumn(name = "recipient_politician_id")
